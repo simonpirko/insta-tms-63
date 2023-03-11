@@ -14,6 +14,15 @@ public class User {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
+    public User(String username, String password, String email, String fullName, LocalDateTime createAt, LocalDateTime updateAt) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+    }
+
     public long getId() {
         return id;
     }

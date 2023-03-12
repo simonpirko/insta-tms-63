@@ -3,12 +3,12 @@ package by.tms.insta.entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Comment {
-    private long id;
+public class Comment extends AbstractEntity {
+
     private String body;
     private User author;
     private Post post;
-    private LocalDateTime createAt;
+
 
     public long getId() {
         return id;

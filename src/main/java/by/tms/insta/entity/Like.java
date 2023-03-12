@@ -3,12 +3,9 @@ package by.tms.insta.entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Like {
-    private long id;
+public class Like extends AbstractEntity {
     private User author;
     private Post post;
-    private LocalDateTime createAt;
-
     public long getId() {
         return id;
     }

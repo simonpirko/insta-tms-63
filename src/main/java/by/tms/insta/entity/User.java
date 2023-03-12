@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class User {
-    private long id;
+public class User extends AbstractEntity {
     private String username;
     private String password;
     private String email;
     private String fullName;
     private List<Post> posts;
-    private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
     public long getId() {

@@ -4,15 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class Post {
-    private long id;
+public class Post extends AbstractEntity {
     private String description;
     private String url;
     private User creator;
     private List<Comment> comments;
     private List<Like> likes;
-    private LocalDateTime createAt;
-
     public long getId() {
         return id;
     }

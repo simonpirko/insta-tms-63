@@ -6,7 +6,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class JDBCUserStorage implements UserStorage {
+public class JDBCUserStorage extends Storage<User> {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";

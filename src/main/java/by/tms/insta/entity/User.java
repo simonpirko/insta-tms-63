@@ -22,6 +22,13 @@ public class User extends AbstractEntity {
         this.updateAt = updateAt;
     }
 
+    public User(String username, String password, String email, String fullName) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+    }
+
     public long getId() {
         return id;
     }

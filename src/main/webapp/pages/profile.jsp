@@ -18,6 +18,7 @@
     <p>${user.fullname}</p>
     <p>${user.createAt}</p>
     <p>${user.updateAt}</p>
+
     <jsp:include page="footer.jsp"/>
 </body>
 </html>

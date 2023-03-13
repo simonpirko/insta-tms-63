@@ -1,6 +1,6 @@
 package by.tms.insta.servlet;
 
-
+import by.tms.insta.entity.User;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -9,23 +9,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.Optional;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/pages/auth.jsp");
-        requestDispatcher.forward(request, response);
-
-    }
-
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        Optional<User> byUsername = userService.findByUser(username);
+        if (byUsername.isPresent()) {
+            User user = byUsername.get();
+            if (user.getPassword().equals(password)) {
+                req.getSession().setAttribute("user", user);
+                req.setAttribute("username", username);
+                req.setAttribute("password", password);
+                resp.sendRedirect("/");
+                return;
+            } else {
+                req.setAttribute("message", "Wrong password!");
+            }
+        } else {
+            req.setAttribute("message", "User not found!");
+        }
+        getServletContext().getRequestDispatcher("/auth.jsp").forward(req, resp);
     }
 }

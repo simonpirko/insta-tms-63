@@ -23,4 +23,8 @@ public class UserService {
         userStorage.save(user);
     }
 
+    public void removeAccount(User user) {
+        userStorage.remove(user.getId());
+    }
+
 }

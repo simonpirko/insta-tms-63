@@ -6,7 +6,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class SQLUserStorage implements UserStorage {
+public class JDBCUserStorage extends Storage<User> {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
@@ -22,7 +22,7 @@ public class SQLUserStorage implements UserStorage {
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
     private final Connection connection;
 
-    public SQLUserStorage() {
+    public JDBCUserStorage() {
         try {
             this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {

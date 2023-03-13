@@ -9,7 +9,7 @@ import java.util.Optional;
 public class UserService {
     private static UserService userService;
 
-    private static Storage<User> userStorage = new JDBCUserStorage();
+    private static JDBCUserStorage userStorage = new JDBCUserStorage();
 
     private UserService() {
     }

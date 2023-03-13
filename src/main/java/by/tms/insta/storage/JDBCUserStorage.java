@@ -57,7 +57,6 @@ public class JDBCUserStorage extends Storage<User> {
         }
     }
 
-    @Override
     public Optional<User> findUserByUsername(String username) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_USER_BY_USERNAME);

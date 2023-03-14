@@ -4,6 +4,7 @@ import by.tms.insta.entity.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class JDBCUserStorage implements UserStorage {
@@ -84,5 +85,15 @@ public class JDBCUserStorage implements UserStorage {
         } catch (SQLException ignored) {
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
     }
 }

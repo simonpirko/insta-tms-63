@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public class UserService {
     private static UserService userService;
+    private JDBCUserStorage userStorage = JDBCUserStorage.getInstance();
 
     private UserService() {
     }
@@ -20,15 +21,15 @@ public class UserService {
     }
 
     public void createAccount(User user) {
-        JDBCUserStorage.getInstance().save(user);
+        userStorage.save(user);
     }
 
     public void removeAccount(User user) {
-        JDBCUserStorage.getInstance().remove(user.getId());
+        userStorage.remove(user.getId());
     }
 
     public Optional<User> findUser(String username) {
-        return JDBCUserStorage.getInstance().findUserByUsername(username);
+        return userStorage.findUserByUsername(username);
     }
 
 }

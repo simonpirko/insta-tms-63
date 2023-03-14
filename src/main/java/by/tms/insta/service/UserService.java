@@ -3,12 +3,13 @@ package by.tms.insta.service;
 import by.tms.insta.entity.User;
 import by.tms.insta.storage.JDBCUserStorage;
 import by.tms.insta.storage.Storage;
+import by.tms.insta.storage.UserStorage;
 
 import java.util.Optional;
 
 public class UserService {
     private static UserService userService;
-    private JDBCUserStorage userStorage = JDBCUserStorage.getInstance();
+    private UserStorage userStorage = JDBCUserStorage.getInstance();
 
     private UserService() {
     }

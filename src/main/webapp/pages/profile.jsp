@@ -11,6 +11,7 @@
     <title>Profile</title>
 </head>
 <body>
+<div class="container">
 <jsp:include page="header.jsp"/>
     <p>${user.username}</p>
     <p>${user.password}</p>
@@ -18,7 +19,7 @@
     <p>${user.fullname}</p>
     <p>${user.createAt}</p>
     <p>${user.updateAt}</p>
-
     <jsp:include page="footer.jsp"/>
+</div>
 </body>
 </html>

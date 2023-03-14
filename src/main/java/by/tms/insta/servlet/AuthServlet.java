@@ -1,6 +1,8 @@
 package by.tms.insta.servlet;
 
 import by.tms.insta.entity.User;
+import by.tms.insta.service.UserService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,7 +20,7 @@ public class AuthServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        Optional<User> byUsername = userService.findByUser(username);
+        Optional<User> byUsername = UserService.getInstance().findUser(username);
         if (byUsername.isPresent()) {
             User user = byUsername.get();
             if (user.getPassword().equals(password)) {

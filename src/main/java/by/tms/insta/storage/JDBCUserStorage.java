@@ -1,6 +1,7 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.User;
+import by.tms.insta.service.UserService;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -21,6 +22,15 @@ public class JDBCUserStorage extends Storage<User> {
     private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
     private final Connection connection;
+
+    private static JDBCUserStorage userStorage;
+
+    public static JDBCUserStorage getInstance(){
+        if(userStorage == null){
+            userStorage = new JDBCUserStorage();
+        }
+        return userStorage;
+    }
 
     public JDBCUserStorage() {
         try {

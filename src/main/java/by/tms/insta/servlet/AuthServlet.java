@@ -15,6 +15,16 @@ import java.util.Optional;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ServletContext servletContext = getServletContext();
+        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/pages/auth.jsp");
+        requestDispatcher.forward(request, response);
+
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

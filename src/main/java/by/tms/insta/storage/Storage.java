@@ -1,10 +1,11 @@
 package by.tms.insta.storage;
 
-import by.tms.insta.entity.User;
-
+import java.util.List;
 import java.util.Optional;
 
-public abstract class Storage<T> {
-    public abstract void save(T value);
-    public abstract void remove(long id);
+public interface Storage<T> {
+    void save(T value);
+    void remove(long id);
+    Optional<T> findById(long id);
+    List<T> findAll();
 }

@@ -1,13 +1,13 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.User;
-import by.tms.insta.service.UserService;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
-public class JDBCUserStorage extends Storage<User> {
+public class JDBCUserStorage implements UserStorage {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
@@ -85,5 +85,15 @@ public class JDBCUserStorage extends Storage<User> {
         } catch (SQLException ignored) {
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
     }
 }

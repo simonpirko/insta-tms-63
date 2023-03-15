@@ -15,7 +15,9 @@ import java.util.Optional;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
+
     private UserService userService = UserService.getInstance();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

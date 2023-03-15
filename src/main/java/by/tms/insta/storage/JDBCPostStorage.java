@@ -15,6 +15,7 @@ public class JDBCPostStorage implements PostStorage {
 
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
     private final Connection connection;
+    private static JDBCPostStorage postStorage;
 
     public JDBCPostStorage() {
         try {
@@ -22,6 +23,13 @@ public class JDBCPostStorage implements PostStorage {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static JDBCPostStorage getInstance() {
+        if (postStorage == null) {
+            postStorage = new JDBCPostStorage();
+        }
+        return postStorage;
     }
 
     @Override

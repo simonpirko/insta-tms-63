@@ -13,12 +13,11 @@ public class User extends AbstractEntity {
     private LocalDateTime updateAt;
 
     public User(long id, String username, String password, String email, String fullName, LocalDateTime createAt, LocalDateTime updateAt) {
-        this.id = id;
+        super(id, createAt);
         this.username = username;
         this.password = password;
         this.email = email;
         this.fullName = fullName;
-        this.createAt = createAt;
         this.updateAt = updateAt;
     }
 
@@ -27,6 +26,10 @@ public class User extends AbstractEntity {
         this.password = password;
         this.email = email;
         this.fullName = fullName;
+    }
+
+    public User(long id) {
+        super(id);
     }
 
     public long getId() {

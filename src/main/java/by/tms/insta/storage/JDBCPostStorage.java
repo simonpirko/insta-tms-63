@@ -60,6 +60,18 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
 
     @Override
     public Optional<Post> findById(long id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_BY_ID);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            String description = resultSet.getString(DESCRIPTION_COLUMN);
+            String url = resultSet.getString(URL_COLUMN);
+            long userId = resultSet.getLong(USER_ID_COLUMN);
+            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+            return Optional.of(new Post(id, description, url, userId, createAt));
+        } catch (SQLException ignoring) {
+        }
         return Optional.empty();
     }
 

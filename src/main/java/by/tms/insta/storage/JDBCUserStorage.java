@@ -7,10 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCUserStorage implements UserStorage {
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "root";
+public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final int ID_COLUMN = 1;
     private static final int USERNAME_COLUMN = 2;
     private static final int PASSWORD_COLUMN = 3;
@@ -32,12 +29,9 @@ public class JDBCUserStorage implements UserStorage {
         return userStorage;
     }
 
+
     public JDBCUserStorage() {
-        try {
-            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        this.connection = getConnection();
     }
 
     @Override
@@ -67,6 +61,16 @@ public class JDBCUserStorage implements UserStorage {
         }
     }
 
+    @Override
+    public Optional<User> findById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
     public Optional<User> findUserByUsername(String username) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_USER_BY_USERNAME);
@@ -85,15 +89,5 @@ public class JDBCUserStorage implements UserStorage {
         } catch (SQLException ignored) {
         }
         return Optional.empty();
-    }
-
-    @Override
-    public Optional<User> findById(long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<User> findAll() {
-        return null;
     }
 }

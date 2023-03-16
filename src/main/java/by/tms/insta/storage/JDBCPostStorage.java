@@ -8,13 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCPostStorage implements PostStorage {
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "root";
-
+public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     private static final String INSERTING_POST = "insert into posts values (default, ?, ?, ?, ?)";
-
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
     private static final String SELECTION_BY_ID = "select * from posts where id = ?";
     private static final int ID_COLUMN = 1;
@@ -26,11 +21,7 @@ public class JDBCPostStorage implements PostStorage {
     private static JDBCPostStorage postStorage;
 
     public JDBCPostStorage() {
-        try {
-            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        this.connection = getConnection();
     }
 
     public static JDBCPostStorage getInstance() {

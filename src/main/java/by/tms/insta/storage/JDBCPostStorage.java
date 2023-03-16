@@ -3,6 +3,8 @@ package by.tms.insta.storage;
 import by.tms.insta.entity.Post;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,12 @@ public class JDBCPostStorage implements PostStorage {
     private static final String INSERTING_POST = "insert into posts values (default, ?, ?, ?, ?)";
 
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
+    private static final String SELECTION_BY_ID = "select * from posts where id = ?";
+    private static final int ID_COLUMN = 1;
+    private static final int DESCRIPTION_COLUMN = 2;
+    private static final int URL_COLUMN = 3;
+    private static final int USER_ID_COLUMN = 4;
+    private static final int CREATE_AT_COLUMN = 5;
     private final Connection connection;
     private static JDBCPostStorage postStorage;
 
@@ -59,11 +67,24 @@ public class JDBCPostStorage implements PostStorage {
 
     @Override
     public Optional<Post> findById(long id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_BY_ID);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            resultSet.next();
+            String description = resultSet.getString(DESCRIPTION_COLUMN);
+            String url = resultSet.getString(URL_COLUMN);
+            long userId = resultSet.getLong(USER_ID_COLUMN);
+            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+            return Optional.of(new Post(id, description, url, userId, createAt));
+        } catch (SQLException ignoring) {
+        }
         return Optional.empty();
     }
 
     @Override
     public List<Post> findAll() {
-        return null;
+        return new ArrayList<>();
     }
 }

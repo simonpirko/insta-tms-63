@@ -11,7 +11,9 @@ import java.util.Optional;
 public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     private static final String INSERTING_POST = "insert into posts values (default, ?, ?, ?, ?)";
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
+    private static final String DELETION_POST_BY_USER_ID = "delete from posts where user_id = ?";
     private static final String SELECTION_BY_ID = "select * from posts where id = ?";
+    private static final String SELECTION_ALL_POSTS = "select * from posts";
     private static final int ID_COLUMN = 1;
     private static final int DESCRIPTION_COLUMN = 2;
     private static final int URL_COLUMN = 3;
@@ -58,23 +60,37 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
 
     @Override
     public Optional<Post> findById(long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_BY_ID);
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            String description = resultSet.getString(DESCRIPTION_COLUMN);
-            String url = resultSet.getString(URL_COLUMN);
-            long userId = resultSet.getLong(USER_ID_COLUMN);
-            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            return Optional.of(new Post(id, description, url, userId, createAt));
-        } catch (SQLException ignoring) {
-        }
         return Optional.empty();
     }
 
     @Override
     public List<Post> findAll() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SELECTION_ALL_POSTS);
+            List<Post> posts = new ArrayList<>();
+            while (resultSet.next()){
+                long id = resultSet.getLong(ID_COLUMN);
+                String description = resultSet.getString(DESCRIPTION_COLUMN);
+                String url = resultSet.getString(URL_COLUMN);
+                long userId = resultSet.getLong(USER_ID_COLUMN);
+                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                posts.add(new Post(id, description, url, userId, createAt));
+            }
+            return posts;
+        } catch (SQLException ignoring) {
+        }
         return new ArrayList<>();
+    }
+
+    @Override
+    public void removeByUserId(long userId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETION_POST_BY_USER_ID);
+            preparedStatement.setLong(1, userId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

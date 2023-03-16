@@ -16,21 +16,14 @@ import java.util.Optional;
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/pages/auth.jsp");
-        requestDispatcher.forward(request, response);
-
-    }
+    private UserService userService = UserService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        Optional<User> byUsername = UserService.getInstance().findUser(username);
+        Optional<User> byUsername = userService.findUser(username);
         if (byUsername.isPresent()) {
             User user = byUsername.get();
             if (user.getPassword().equals(password)) {

@@ -71,7 +71,6 @@ public class JDBCPostStorage implements PostStorage {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             resultSet.next();
             String description = resultSet.getString(DESCRIPTION_COLUMN);
             String url = resultSet.getString(URL_COLUMN);

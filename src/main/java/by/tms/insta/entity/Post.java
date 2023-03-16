@@ -10,6 +10,14 @@ public class Post extends AbstractEntity {
     private User creator;
     private List<Comment> comments;
     private List<Like> likes;
+
+    public Post(long id, String description, String url, long userId, LocalDateTime createAt) {
+        super(id,createAt);
+        this.description = description;
+        this.url = url;
+        this.creator = new User(userId);
+    }
+
     public long getId() {
         return id;
     }

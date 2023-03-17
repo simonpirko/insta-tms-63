@@ -1,6 +1,5 @@
 package by.tms.insta.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,67 +10,71 @@ public class Post extends AbstractEntity {
     private List<Comment> comments;
     private List<Like> likes;
 
-    public Post(long id, String description, String url, long userId, LocalDateTime createAt) {
-        super(id,createAt);
-        this.description = description;
-        this.url = url;
-        this.creator = new User(userId);
+    private Post() {
+
     }
 
-    public long getId() {
-        return id;
+    public static PostBuilder newBuilder() {
+        return new Post().new PostBuilder();
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public class PostBuilder {
+        public PostBuilder() {
+        }
+
+        public PostBuilder setId(long id) {
+            Post.this.id = id;
+            return this;
+        }
+
+        public PostBuilder setDescription(String description) {
+            Post.this.description = description;
+            return this;
+        }
+
+        public PostBuilder setUrl(String url) {
+            Post.this.url = url;
+            return this;
+        }
+
+        public PostBuilder setCreator(User creator) {
+            Post.this.creator = creator;
+            return this;
+        }
+
+        public PostBuilder setComments(List<Comment> comments) {
+            Post.this.comments = comments;
+            return this;
+        }
+
+        public PostBuilder setLikes(List<Like> likes) {
+            Post.this.likes = likes;
+            return this;
+        }
+
+        public Post build() {
+            return Post.this;
+        }
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public User getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public List<Like> getLikes() {
         return likes;
-    }
-
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
     }
 
     @Override

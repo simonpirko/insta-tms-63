@@ -18,6 +18,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final String INSERTING_USER = "insert into users values (default, ?, ?, ?, ?, ?, ?)";
     private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
+    private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
     private final Connection connection;
 
     private static JDBCUserStorage userStorage;
@@ -63,6 +64,28 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
 
     @Override
     public Optional<User> findById(long id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_USER_BY_ID);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            String username = resultSet.getString(USERNAME_COLUMN);
+            String password = resultSet.getString(PASSWORD_COLUMN);
+            String email = resultSet.getString(EMAIL_COLUMN);
+            String fullName = resultSet.getString(FULL_NAME_COLUMN);
+            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+            LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+            return Optional.of(User.newBuilder()
+                    .setId(id)
+                    .setUsername(username)
+                    .setPassword(password)
+                    .setEmail(email)
+                    .setFullName(fullName)
+                    .setCreateAt(createAt)
+                    .setUpdateAt(updateAt)
+                    .build());
+        } catch (SQLException ignoring) {
+        }
         return Optional.empty();
     }
 

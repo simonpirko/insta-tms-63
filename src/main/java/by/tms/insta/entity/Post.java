@@ -1,5 +1,6 @@
 package by.tms.insta.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +50,11 @@ public class Post extends AbstractEntity {
 
         public PostBuilder setLikes(List<Like> likes) {
             Post.this.likes = likes;
+            return this;
+        }
+
+        public PostBuilder setCreateAt(LocalDateTime createAt) {
+            Post.this.createAt = createAt;
             return this;
         }
 

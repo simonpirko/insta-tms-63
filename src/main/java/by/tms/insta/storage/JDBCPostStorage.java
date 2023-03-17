@@ -108,15 +108,4 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
         }
         return new ArrayList<>();
     }
-
-    @Override
-    public void removeByUserId(long userId) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETION_POST_BY_USER_ID);
-            preparedStatement.setLong(1, userId);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

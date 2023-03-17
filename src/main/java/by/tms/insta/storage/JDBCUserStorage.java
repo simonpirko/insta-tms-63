@@ -21,7 +21,6 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
     private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
     private static final String SELECTION_ALL_USERS = "select * from users";
-    private final Connection connection;
 
     private static JDBCUserStorage userStorage;
 
@@ -32,15 +31,13 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
         return userStorage;
     }
 
-
     public JDBCUserStorage() {
-        this.connection = getConnection();
     }
 
     @Override
     public void save(User user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERTING_USER);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(INSERTING_USER);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getEmail());
@@ -56,7 +53,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     @Override
     public void remove(long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETION_USER_BY_USERNAME);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETION_USER_BY_USERNAME);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -67,7 +64,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     @Override
     public Optional<User> findById(long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_USER_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -94,7 +91,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     @Override
     public List<User> findAll() {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SELECTION_ALL_USERS);
             List<User> users = new ArrayList<>();
             while (resultSet.next()) {
@@ -123,7 +120,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
 
     public Optional<User> findUserByUsername(String username) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_USER_BY_USERNAME);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_BY_USERNAME);
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
 

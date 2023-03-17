@@ -4,6 +4,7 @@ import by.tms.insta.entity.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
     private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
+    private static final String SELECTION_ALL_USERS = "select * from users";
     private final Connection connection;
 
     private static JDBCUserStorage userStorage;
@@ -84,14 +86,39 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
                     .setCreateAt(createAt)
                     .setUpdateAt(updateAt)
                     .build());
-        } catch (SQLException ignoring) {
+        } catch (SQLException ignored) {
         }
         return Optional.empty();
     }
 
     @Override
     public List<User> findAll() {
-        return null;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SELECTION_ALL_USERS);
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(ID_COLUMN);
+                String username = resultSet.getString(USERNAME_COLUMN);
+                String password = resultSet.getString(PASSWORD_COLUMN);
+                String email = resultSet.getString(EMAIL_COLUMN);
+                String fullName = resultSet.getString(FULL_NAME_COLUMN);
+                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+                users.add(User.newBuilder()
+                        .setId(id)
+                        .setUsername(username)
+                        .setPassword(password)
+                        .setEmail(email)
+                        .setFullName(fullName)
+                        .setCreateAt(createAt)
+                        .setUpdateAt(updateAt)
+                        .build());
+            }
+            return users;
+        } catch (SQLException ignored) {
+        }
+        return new ArrayList<>();
     }
 
     public Optional<User> findUserByUsername(String username) {

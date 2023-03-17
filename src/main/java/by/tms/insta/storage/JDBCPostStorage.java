@@ -1,6 +1,8 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.Post;
+import by.tms.insta.entity.User;
+import by.tms.insta.service.UserService;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -69,7 +71,13 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
             String url = resultSet.getString(URL_COLUMN);
             long userId = resultSet.getLong(USER_ID_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            return Optional.of(new Post(id, description, url, userId, createAt));
+            return Optional.of(Post.newBuilder()
+                    .setId(id)
+                    .setDescription(description)
+                    .setUrl(url)
+                    .setCreator(UserService.getInstance().findUserById(id).get())
+                    .setCreateAt(createAt)
+                    .build());
         } catch (SQLException ignoring) {
         }
         return Optional.empty();
@@ -87,7 +95,13 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
                 String url = resultSet.getString(URL_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                posts.add(new Post(id, description, url, userId, createAt));
+                posts.add(Post.newBuilder()
+                        .setId(id)
+                        .setDescription(description)
+                        .setUrl(url)
+                        .setCreator(UserService.getInstance().findUserById(userId).get())
+                        .setCreateAt(createAt)
+                        .build());
             }
             return posts;
         } catch (SQLException ignoring) {

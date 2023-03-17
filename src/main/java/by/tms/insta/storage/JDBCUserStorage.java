@@ -22,8 +22,8 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
 
     private static JDBCUserStorage userStorage;
 
-    public static JDBCUserStorage getInstance(){
-        if(userStorage == null){
+    public static JDBCUserStorage getInstance() {
+        if (userStorage == null) {
             userStorage = new JDBCUserStorage();
         }
         return userStorage;
@@ -84,8 +84,15 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
             String fullName = resultSet.getString(FULL_NAME_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
             LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
-
-            return Optional.of(new User(id, username, password, email, fullName, createAt, updateAt));
+            return Optional.of(User.newBuilder()
+                    .setId(id)
+                    .setUsername(username)
+                    .setPassword(password)
+                    .setEmail(email)
+                    .setFullName(fullName)
+                    .setCreateAt(createAt)
+                    .setUpdateAt(updateAt)
+                    .build());
         } catch (SQLException ignored) {
         }
         return Optional.empty();

@@ -1,7 +1,6 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.Post;
-import by.tms.insta.entity.User;
 import by.tms.insta.service.UserService;
 
 import java.sql.*;
@@ -72,10 +71,10 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
                     .setId(id)
                     .setDescription(description)
                     .setUrl(url)
-                    .setCreator(UserService.getInstance().findUserById(id).get())
+                    .setCreator(UserService.getInstance().findUserById(userId).get())
                     .setCreateAt(createAt)
                     .build());
-        } catch (SQLException ignoring) {
+        } catch (SQLException ignored) {
         }
         return Optional.empty();
     }
@@ -86,7 +85,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SELECTION_ALL_POSTS);
             List<Post> posts = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 long id = resultSet.getLong(ID_COLUMN);
                 String description = resultSet.getString(DESCRIPTION_COLUMN);
                 String url = resultSet.getString(URL_COLUMN);
@@ -101,7 +100,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
                         .build());
             }
             return posts;
-        } catch (SQLException ignoring) {
+        } catch (SQLException ignored) {
         }
         return new ArrayList<>();
     }

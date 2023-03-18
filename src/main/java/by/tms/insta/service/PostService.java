@@ -4,6 +4,7 @@ import by.tms.insta.entity.Post;
 import by.tms.insta.storage.JDBCPostStorage;
 import by.tms.insta.storage.PostStorage;
 
+import java.util.List;
 import java.util.Optional;
 
 public class PostService {
@@ -24,6 +25,8 @@ public class PostService {
     public Optional<Post> findPost(long id) {
         return postStorage.findById(id);
     }
-
+    public List<Post> findAllPosts() {
+        return postStorage.findAll();
+    }
 
 }

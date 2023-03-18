@@ -2,6 +2,7 @@ package by.tms.insta.servlet;
 
 import by.tms.insta.entity.User;
 import by.tms.insta.service.UserService;
+import by.tms.insta.validators.UserValidator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -15,29 +16,50 @@ import java.util.Optional;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
+    private static final String USER = "user";
+    private static final String FULL_NAME = "fullName";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String AUTH_PATH = "/pages/auth.jsp";
+    private static final String PROFILE_PATH = "/pages/profile.jsp";
 
-    private UserService userService = UserService.getInstance();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ServletContext servletContext = getServletContext();
+        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(AUTH_PATH);
+        requestDispatcher.forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        Optional<User> byUsername = userService.findUserByUserName(username);
-        if (byUsername.isPresent()) {
-            User user = byUsername.get();
-            if (user.getPassword().equals(password)) {
-                req.getSession().setAttribute("user", user);
-                req.setAttribute("username", username);
-                req.setAttribute("password", password);
-                resp.sendRedirect("/");
-                return;
+        String fullName = req.getParameter(FULL_NAME);
+        String username = req.getParameter(USERNAME);
+        String password = req.getParameter(PASSWORD);
+        if (UserValidator.isValid(User.newBuilder()
+                .setFullName(fullName)
+                .setUsername(username)
+                .setPassword(password)
+                .build())) {
+            Optional<User> byUsername = UserService.getInstance().findUserByUserName(username);
+            if (byUsername.isPresent()) {
+                User user = byUsername.get();
+                if (user.getPassword().equals(password)) {
+                    req.getSession().setAttribute(USER, user);
+                    req.setAttribute(USERNAME, username);
+                    req.setAttribute(PASSWORD, password);
+//                resp.sendRedirect("/");
+                    return;
+                } else {
+                    req.setAttribute("message", "Wrong password!");
+                }
             } else {
-                req.setAttribute("message", "Wrong password!");
+                req.setAttribute("message", "User not found!");
             }
         } else {
-            req.setAttribute("message", "User not found!");
+            req.setAttribute("message", "invalid info");
         }
-        getServletContext().getRequestDispatcher("/auth.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher(PROFILE_PATH).forward(req, resp);
     }
 }

@@ -1,26 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: PC
-  Date: 12.03.2023
-  Time: 13:30
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Authorization</title>
 </head>
 <body>
 <form action="/auth" method="post">
-    <input type="text" placeholder="Username">
+    <input type="text" name="name" placeholder="Name">
     <br>
-    <input type="text" placeholder="Password">
+    <input type="text" name="username" placeholder="Username">
     <br>
-    <td><input type="checkbox" name="RememberMe"
-               value="Check me out" /></td>
-    <td>Check me out</td>
+    <input type="text" name="password" placeholder="Password">
     <br>
-    <button>Sign in</button>
+    <button>log in</button>
 </form>
 </body>
 </html>

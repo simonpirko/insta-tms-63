@@ -16,7 +16,8 @@ public class UserService {
     }
 
     public static UserService getInstance() {
-        if (userService == null) {
+        if (userService == null)
+        {
             userService = new UserService();
         }
         return userService;

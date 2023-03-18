@@ -1,6 +1,7 @@
 package by.tms.insta.service;
 
 import by.tms.insta.entity.Post;
+import by.tms.insta.entity.User;
 import by.tms.insta.storage.JDBCPostStorage;
 import by.tms.insta.storage.PostStorage;
 
@@ -25,8 +26,13 @@ public class PostService {
     public Optional<Post> findPost(long id) {
         return postStorage.findById(id);
     }
+
     public List<Post> findAllPosts() {
         return postStorage.findAll();
+    }
+
+    public void removePost(User user) {
+        postStorage.removeByUserId(user.getId());
     }
 
 }

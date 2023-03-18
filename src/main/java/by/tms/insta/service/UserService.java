@@ -29,10 +29,8 @@ public class UserService {
     public void removeAccount(User user) {
         userStorage.remove(user.getId());
     }
-    public boolean deleteById (long id) {
-       return userStorage.deleteById(id);
 
-    }
+    public boolean deleteById (long id) { return userStorage.deleteById(id); }
 
 
     public Optional<User> findUser(String username) {

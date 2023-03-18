@@ -8,6 +8,7 @@ import by.tms.insta.storage.UserStorage;
 import java.util.Optional;
 
 public class UserService {
+
     private static UserService userService;
     private UserStorage userStorage = JDBCUserStorage.getInstance();
 
@@ -28,6 +29,11 @@ public class UserService {
     public void removeAccount(User user) {
         userStorage.remove(user.getId());
     }
+    public boolean deleteById (long id) {
+       return userStorage.deleteById(id);
+
+    }
+
 
     public Optional<User> findUser(String username) {
         return userStorage.findUserByUsername(username);

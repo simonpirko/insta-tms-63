@@ -32,7 +32,8 @@ public class PostService {
     }
 
     public void removePost(User user) {
-        postStorage.removeByUserId(user.getId());
+        postStorage.remove(user.getId());
     }
+
 
 }

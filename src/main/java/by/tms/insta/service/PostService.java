@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PostService {
-    private PostStorage postStorage = JDBCPostStorage.getInstance();
+    private final PostStorage postStorage = JDBCPostStorage.getInstance();
     private PostService INSTANCE;
 
     private PostService() {
@@ -31,9 +31,8 @@ public class PostService {
         return postStorage.findAll();
     }
 
-    public void removePost(User user) {
-        postStorage.remove(user.getId());
+    public void removePost(long id) {
+        postStorage.remove(id);
     }
-
 
 }

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 
-@WebServlet("/reg")
+@WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
     private final UserService userService = UserService.getInstance();
     private final LocalDateTime createAt = LocalDateTime.now();
@@ -46,10 +46,13 @@ public class RegistrationServlet extends HttpServlet {
                     .build());
             resp.sendRedirect("/auth");
             return;
+        }
+        if (byUsername.isPresent()) {
+            req.setAttribute("message", "The user already exists.");
         } else {
             req.setAttribute("message", "Registration failed. Check the correctness of the entered data!");
         }
-        getServletContext().getRequestDispatcher("/reg.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
 
     }
 

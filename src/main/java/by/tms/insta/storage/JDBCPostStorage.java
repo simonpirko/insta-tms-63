@@ -1,6 +1,7 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.Post;
+import by.tms.insta.service.UserService;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -11,7 +12,6 @@ import java.util.Optional;
 public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     private static final String INSERTING_POST = "insert into posts values (default, ?, ?, ?, ?)";
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
-    private static final String DELETION_POST_BY_USER_ID = "delete from posts where user_id = ?";
     private static final String SELECTION_BY_ID = "select * from posts where id = ?";
     private static final String SELECTION_ALL_POSTS = "select * from posts";
     private static final int ID_COLUMN = 1;
@@ -19,11 +19,9 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     private static final int URL_COLUMN = 3;
     private static final int USER_ID_COLUMN = 4;
     private static final int CREATE_AT_COLUMN = 5;
-    private final Connection connection;
     private static JDBCPostStorage postStorage;
 
     public JDBCPostStorage() {
-        this.connection = getConnection();
     }
 
     public static JDBCPostStorage getInstance() {
@@ -36,7 +34,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     @Override
     public void save(Post post) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERTING_POST);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(INSERTING_POST);
             preparedStatement.setString(1, post.getDescription());
             preparedStatement.setString(2, post.getUrl());
             preparedStatement.setLong(3, post.getCreator().getId());
@@ -50,7 +48,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     @Override
     public void remove(long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETION_POST_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETION_POST_BY_ID);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -61,7 +59,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     @Override
     public Optional<Post> findById(long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -69,8 +67,14 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
             String url = resultSet.getString(URL_COLUMN);
             long userId = resultSet.getLong(USER_ID_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            return Optional.of(new Post(id, description, url, userId, createAt));
-        } catch (SQLException ignoring) {
+            return Optional.of(Post.newBuilder()
+                    .setId(id)
+                    .setDescription(description)
+                    .setUrl(url)
+                    .setCreator(UserService.getInstance().findUserById(userId).get())
+                    .setCreateAt(createAt)
+                    .build());
+        } catch (SQLException ignored) {
         }
         return Optional.empty();
     }
@@ -78,31 +82,26 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     @Override
     public List<Post> findAll() {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SELECTION_ALL_POSTS);
             List<Post> posts = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 long id = resultSet.getLong(ID_COLUMN);
                 String description = resultSet.getString(DESCRIPTION_COLUMN);
                 String url = resultSet.getString(URL_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                posts.add(new Post(id, description, url, userId, createAt));
+                posts.add(Post.newBuilder()
+                        .setId(id)
+                        .setDescription(description)
+                        .setUrl(url)
+                        .setCreator(UserService.getInstance().findUserById(userId).get())
+                        .setCreateAt(createAt)
+                        .build());
             }
             return posts;
-        } catch (SQLException ignoring) {
+        } catch (SQLException ignored) {
         }
         return new ArrayList<>();
-    }
-
-    @Override
-    public void removeByUserId(long userId) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETION_POST_BY_USER_ID);
-            preparedStatement.setLong(1, userId);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

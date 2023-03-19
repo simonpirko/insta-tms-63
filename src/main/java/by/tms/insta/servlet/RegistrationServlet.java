@@ -27,9 +27,13 @@ public class RegistrationServlet extends HttpServlet {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        Optional<User> byUsername = UserService.getInstance().findUser(username);
+        Optional<User> byUsername = UserService.getInstance().findUserByUserName(username);
         if (byUsername.isEmpty()) {
-            UserService.getInstance().createAccount(new User(fullName, email, username, password));
+            UserService.getInstance().createAccount(User.newBuilder()
+                    .setFullName(fullName)
+                    .setEmail(email)
+                    .setUsername(username).setPassword(password)
+                    .build());
             resp.sendRedirect("/auth");
             return;
         } else {

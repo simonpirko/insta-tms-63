@@ -16,6 +16,8 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final int FULL_NAME_COLUMN = 5;
     private static final int CREATE_AT_COLUMN = 6;
     private static final int UPDATE_AT_COLUMN = 7;
+
+    private static final int AVATAR_COLUMN = 8;
     private static final String INSERTING_USER = "insert into users values (default, ?, ?, ?, ?, ?, ?,?)";
     private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
@@ -132,6 +134,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
             String fullName = resultSet.getString(FULL_NAME_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
             LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+            String avatar = resultSet.getString(AVATAR_COLUMN);
             return Optional.of(User.newBuilder()
                     .setId(id)
                     .setUsername(username)
@@ -140,6 +143,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
                     .setFullName(fullName)
                     .setCreateAt(createAt)
                     .setUpdateAt(updateAt)
+                    .setAvatar(avatar)
                     .build());
         } catch (SQLException ignored) {
         }

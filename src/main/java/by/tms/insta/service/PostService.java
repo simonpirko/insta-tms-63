@@ -35,5 +35,9 @@ public class PostService {
         postStorage.remove(id);
     }
 
+    public List<Post> findPosts(User user) {
+        return postStorage.findPostsByUserId(user.getId());
+    }
+
 
 }

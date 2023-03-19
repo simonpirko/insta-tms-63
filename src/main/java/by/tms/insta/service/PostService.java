@@ -23,8 +23,8 @@ public class PostService {
         return INSTANCE;
     }
 
-    public Optional<Post> findPost(long id) {
-        return postStorage.findById(id);
+    public Optional<Post> findPost(Post post) {
+        return postStorage.findById(post.getId());
     }
 
     public List<Post> findAllPosts() {
@@ -34,5 +34,6 @@ public class PostService {
     public void removePost(long id) {
         postStorage.remove(id);
     }
+
 
 }

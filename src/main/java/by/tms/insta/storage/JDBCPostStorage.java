@@ -40,6 +40,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
             preparedStatement.setLong(3, post.getCreator().getId());
             preparedStatement.setTimestamp(4, Timestamp.valueOf(post.getCreateAt()));
             preparedStatement.execute();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

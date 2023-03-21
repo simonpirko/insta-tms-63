@@ -14,6 +14,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
     private static final String SELECTION_BY_ID = "select * from posts where id = ?";
     private static final String SELECTION_ALL_POSTS = "select * from posts";
+    private static final String SELECTION_POSTS_BY_USERID = "select * from posts where user_id=?";
     private static final int ID_COLUMN = 1;
     private static final int DESCRIPTION_COLUMN = 2;
     private static final int URL_COLUMN = 3;
@@ -57,6 +58,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
         }
     }
 
+
     @Override
     public Optional<Post> findById(long id) {
         try {
@@ -78,6 +80,34 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
         } catch (SQLException ignored) {
         }
         return Optional.empty();
+    }
+
+    public List<Post> findPostsByUserId(long userid) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_POSTS_BY_USERID);
+            preparedStatement.setLong(1, userid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Post> posts = new ArrayList<>();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(ID_COLUMN);
+                String description = resultSet.getString(DESCRIPTION_COLUMN);
+                String url = resultSet.getString(URL_COLUMN);
+                long userId = resultSet.getLong(USER_ID_COLUMN);
+                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                posts.add(Post.newBuilder()
+                        .setId(id)
+                        .setDescription(description)
+                        .setUrl(url)
+                        .setCreator(UserService.getInstance().findUserById(userId).get())
+                        .setCreateAt(createAt)
+                        .build());
+            }
+            return posts;
+
+        } catch (SQLException ignored) {
+
+        }
+        return new ArrayList<>();
     }
 
     @Override

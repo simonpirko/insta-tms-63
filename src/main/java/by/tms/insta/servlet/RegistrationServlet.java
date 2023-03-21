@@ -17,13 +17,11 @@ import java.util.Optional;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
     private final UserService userService = UserService.getInstance();
-    private final LocalDateTime createAt = LocalDateTime.now();
-    private final LocalDateTime updateAt = LocalDateTime.now();
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/register.jsp").forward(req, resp);
     }
 
     @Override
@@ -40,8 +38,8 @@ public class RegistrationServlet extends HttpServlet {
                     .setEmail(email)
                     .setUsername(username)
                     .setPassword(password)
-                    .setCreateAt(createAt)
-                    .setUpdateAt(updateAt)
+                    .setCreateAt(LocalDateTime.now())
+                    .setUpdateAt(LocalDateTime.now())
                     .setAvatar(avatar)
                     .build());
             resp.sendRedirect("/auth");
@@ -52,7 +50,7 @@ public class RegistrationServlet extends HttpServlet {
         } else {
             req.setAttribute("message", "Registration failed. Check the correctness of the entered data!");
         }
-        getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/register.jsp").forward(req, resp);
 
     }
 

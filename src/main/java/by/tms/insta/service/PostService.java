@@ -10,17 +10,17 @@ import java.util.Optional;
 
 public class PostService {
     private PostStorage postStorage = JDBCPostStorage.getInstance();
-    private PostService INSTANCE;
+    private static PostService instance;
 
     private PostService() {
 
     }
 
-    public PostService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PostService();
+    public static PostService getInstance() {
+        if (instance == null) {
+            instance = new PostService();
         }
-        return INSTANCE;
+        return instance;
     }
 
     public Optional<Post> findPost(long id) {
@@ -32,7 +32,11 @@ public class PostService {
     }
 
     public void removePost(User user) {
-        postStorage.removeByUserId(user.getId());
+        postStorage.remove(user.getId());
+    }
+
+    public void createPost(Post post) {
+        postStorage.save(post);
     }
 
 }

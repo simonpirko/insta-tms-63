@@ -16,7 +16,7 @@ public class DeleteUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userid = req.getParameter("userid");
         long parsedUserId = Long.parseLong(userid);
-        userService.deleteById(parsedUserId);
+//        userService.removeAccount();
         req.setAttribute("message", "user deleted");
         getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
 

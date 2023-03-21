@@ -35,12 +35,8 @@ public class PostService {
         postStorage.remove(id);
     }
 
-    public void createPost(Post post) {
-        postStorage.save(post);
-    }
-
     public List<Post> findPosts(long id) {
-        return postStorage.remove(id);
+        return postStorage.findPostsByUserId(id);
     }
 
     public void createPost(Post post) {

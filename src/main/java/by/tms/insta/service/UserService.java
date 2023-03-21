@@ -31,8 +31,6 @@ public class UserService {
         userStorage.remove(user.getId());
     }
 
-    public boolean deleteById (long id) { return userStorage.deleteById(id); }
-
     public Optional<User> findUser(String username) {
         return userStorage.findUserByUsername(username);
     }

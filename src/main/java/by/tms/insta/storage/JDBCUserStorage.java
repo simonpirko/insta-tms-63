@@ -18,9 +18,8 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final int UPDATE_AT_COLUMN = 7;
     private static final int AVATAR_COLUMN = 8;
     private static final String INSERTING_USER = "insert into users values (default, ?, ?, ?, ?, ?, ?,?)";
-    private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
+    private static final String DELETION_USER_BY_ID = "delete from users where id = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
-    private static final String SQL_USER_DELETE_BY_ID = "DELETE FROM users WHERE id = ?";
     private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
     private static final String SELECTION_ALL_USERS = "select * from users";
 

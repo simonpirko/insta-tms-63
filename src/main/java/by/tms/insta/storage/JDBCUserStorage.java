@@ -54,26 +54,13 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     @Override
     public void remove(long id) {
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETION_USER_BY_USERNAME);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETION_USER_BY_ID);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    
-    public boolean deleteById (long id){
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_USER_DELETE_BY_ID)){
-            preparedStatement.setLong(1, id);
-            int count = preparedStatement.executeUpdate();
-            return count == 1;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     @Override
     public Optional<User> findById(long id) {

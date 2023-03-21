@@ -18,7 +18,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/register.jsp").forward(req, resp);
     }
 
     @Override
@@ -34,12 +34,12 @@ public class RegistrationServlet extends HttpServlet {
                     .setEmail(email)
                     .setUsername(username).setPassword(password)
                     .build());
-            resp.sendRedirect("/auth");
+            resp.sendRedirect("/pages/auth");
             return;
         } else {
             req.setAttribute("message", "Registration failed. Check the correctness of the entered data!");
         }
-        getServletContext().getRequestDispatcher("/reg.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/reg.jsp").forward(req, resp);
 
     }
 

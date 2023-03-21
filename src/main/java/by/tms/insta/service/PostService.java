@@ -10,29 +10,42 @@ import java.util.Optional;
 
 public class PostService {
     private PostStorage postStorage = JDBCPostStorage.getInstance();
-    private PostService INSTANCE;
+    private static PostService instance;
 
     private PostService() {
 
     }
 
-    public PostService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PostService();
+    public static PostService getInstance() {
+        if (instance == null) {
+            instance = new PostService();
         }
-        return INSTANCE;
+        return instance;
     }
 
-    public Optional<Post> findPost(long id) {
-        return postStorage.findById(id);
+    public Optional<Post> findPost(Post post) {
+        return postStorage.findById(post.getId());
     }
 
     public List<Post> findAllPosts() {
         return postStorage.findAll();
     }
 
-    public void removePost(User user) {
-        postStorage.removeByUserId(user.getId());
+    public void removePost(long id) {
+        postStorage.remove(id);
     }
+
+    public void createPost(Post post) {
+        postStorage.save(post);
+    }
+
+    public List<Post> findPosts(long id) {
+        return postStorage.remove(id);
+    }
+
+    public void createPost(Post post) {
+        postStorage.save(post);
+    }
+
 
 }

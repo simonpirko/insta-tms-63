@@ -11,20 +11,27 @@ public class User extends AbstractEntity {
     private String fullName;
     private List<Post> posts;
     private LocalDateTime updateAt;
+    private String avatar;
 
     public User() {
     }
 
-    public static UserBuilder newBuilder(){
+    public static UserBuilder newBuilder() {
         return new User().new UserBuilder();
     }
 
-    public class UserBuilder{
+    public class UserBuilder {
         public UserBuilder() {
         }
 
         public UserBuilder setId(long id) {
             User.this.id = id;
+            return this;
+        }
+
+        public UserBuilder setAvatar(String avatar) {
+
+            User.this.avatar = avatar;
             return this;
         }
 
@@ -63,7 +70,7 @@ public class User extends AbstractEntity {
             return this;
         }
 
-        public User build(){
+        public User build() {
             return User.this;
         }
     }
@@ -90,6 +97,10 @@ public class User extends AbstractEntity {
 
     public LocalDateTime getUpdateAt() {
         return updateAt;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserService {
+
     private static UserService userService;
     private final UserStorage userStorage = JDBCUserStorage.getInstance();
 
@@ -15,7 +16,8 @@ public class UserService {
     }
 
     public static UserService getInstance() {
-        if (userService == null) {
+        if (userService == null)
+        {
             userService = new UserService();
         }
         return userService;
@@ -29,6 +31,12 @@ public class UserService {
         userStorage.remove(user.getId());
     }
 
+    public boolean deleteById (long id) { return userStorage.deleteById(id); }
+
+    public Optional<User> findUser(String username) {
+        return userStorage.findUserByUsername(username);
+    }
+    
     public Optional<User> findUserByUserName(String username) {
         return userStorage.findUserByUsername(username);
     }

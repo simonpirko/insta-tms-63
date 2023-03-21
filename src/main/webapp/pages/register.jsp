@@ -9,8 +9,11 @@
 <html>
 <head>
     <title>Title</title>
+
 </head>
+
 <body>
+<jsp:include page="header.jsp"/>
 <form action="/register" method="post">
   <input type="text" placeholder="Email">
   <br>
@@ -23,5 +26,6 @@
   <button>Sign up</button>
 </form>
 <a href="auth.jsp"> Sign in</a>
-</body>
+<jsp:include page="footer.jsp"/>
 </html>
+</body>

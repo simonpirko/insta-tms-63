@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface UserStorage extends Storage<User> {
     Optional<User> findUserByUsername(String username);
+    boolean deleteById (long id);
 }

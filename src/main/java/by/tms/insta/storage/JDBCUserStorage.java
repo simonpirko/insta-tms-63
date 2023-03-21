@@ -17,8 +17,9 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final int CREATE_AT_COLUMN = 6;
     private static final int UPDATE_AT_COLUMN = 7;
     private static final String INSERTING_USER = "insert into users values (default, ?, ?, ?, ?, ?, ?)";
-    private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
+    private static final String DELETION_USER_BY_ID = "delete from users where id = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
+    private static final String SQL_USER_DELETE_BY_ID = "DELETE FROM users WHERE id = ?";
     private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
     private static final String SELECTION_ALL_USERS = "select * from users";
 
@@ -30,8 +31,8 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
         }
         return userStorage;
     }
-
-    public JDBCUserStorage() {
+    
+    private JDBCUserStorage() {
     }
 
     @Override
@@ -60,6 +61,19 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
             throw new RuntimeException(e);
         }
     }
+    
+    public boolean deleteById (long id){
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_USER_DELETE_BY_ID)){
+            preparedStatement.setLong(1, id);
+            int count = preparedStatement.executeUpdate();
+            return count == 1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public Optional<User> findById(long id) {

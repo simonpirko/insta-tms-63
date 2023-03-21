@@ -12,88 +12,84 @@ public class User extends AbstractEntity {
     private List<Post> posts;
     private LocalDateTime updateAt;
 
-    public User(long id, String username, String password, String email, String fullName, LocalDateTime createAt, LocalDateTime updateAt) {
-        super(id, createAt);
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.fullName = fullName;
-        this.updateAt = updateAt;
+    public User() {
     }
 
-    public User(String username, String password, String email, String fullName) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.fullName = fullName;
+    public static UserBuilder newBuilder(){
+        return new User().new UserBuilder();
     }
 
-    public User(long id) {
-        super(id);
-    }
+    public class UserBuilder{
+        public UserBuilder() {
+        }
 
-    public long getId() {
-        return id;
-    }
+        public UserBuilder setId(long id) {
+            User.this.id = id;
+            return this;
+        }
 
-    public void setId(long id) {
-        this.id = id;
+        public UserBuilder setUsername(String username) {
+            User.this.username = username;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            User.this.password = password;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            User.this.email = email;
+            return this;
+        }
+
+        public UserBuilder setFullName(String fullName) {
+            User.this.fullName = fullName;
+            return this;
+        }
+
+        public UserBuilder setPosts(List<Post> posts) {
+            User.this.posts = posts;
+            return this;
+        }
+
+        public UserBuilder setUpdateAt(LocalDateTime updateAt) {
+            User.this.updateAt = updateAt;
+            return this;
+        }
+
+        public UserBuilder setCreateAt(LocalDateTime createAt) {
+            User.this.createAt = createAt;
+            return this;
+        }
+
+        public User build(){
+            return User.this;
+        }
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getFullName() {
         return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
-    }
-
     public LocalDateTime getUpdateAt() {
         return updateAt;
-    }
-
-    public void setUpdateAt(LocalDateTime updateAt) {
-        this.updateAt = updateAt;
     }
 
     @Override

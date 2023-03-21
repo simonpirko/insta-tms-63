@@ -7,10 +7,6 @@ public class Like extends AbstractEntity {
     private User author;
     private Post post;
 
-    public Like(long id, LocalDateTime createAt) {
-        super(id, createAt);
-    }
-
     public long getId() {
         return id;
     }

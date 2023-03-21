@@ -8,8 +8,17 @@ public abstract class AbstractStorage {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
+    private final Connection connection;
 
-    public Connection getConnection() {
+    public AbstractStorage() {
+        this.connection = createConnection();
+    }
+
+    public Connection getConnection(){
+        return connection;
+    }
+
+    private Connection createConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {

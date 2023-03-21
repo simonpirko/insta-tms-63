@@ -4,6 +4,7 @@ import by.tms.insta.entity.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,29 +17,28 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final int CREATE_AT_COLUMN = 6;
     private static final int UPDATE_AT_COLUMN = 7;
     private static final String INSERTING_USER = "insert into users values (default, ?, ?, ?, ?, ?, ?)";
-    private static final String DELETION_USER_BY_USERNAME = "delete from users where username = ?";
+    private static final String DELETION_USER_BY_ID = "delete from users where id = ?";
     private static final String SELECTION_USER_BY_USERNAME = "select * from users where username = ?";
     private static final String SQL_USER_DELETE_BY_ID = "DELETE FROM users WHERE id = ?";
-    private final Connection connection;
+    private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
+    private static final String SELECTION_ALL_USERS = "select * from users";
 
     private static JDBCUserStorage userStorage;
 
-    public static JDBCUserStorage getInstance(){
-        if(userStorage == null){
+    public static JDBCUserStorage getInstance() {
+        if (userStorage == null) {
             userStorage = new JDBCUserStorage();
         }
         return userStorage;
     }
-
-
+    
     private JDBCUserStorage() {
-        this.connection = getConnection();
     }
 
     @Override
     public void save(User user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERTING_USER);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(INSERTING_USER);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getEmail());
@@ -54,13 +54,14 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     @Override
     public void remove(long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETION_USER_BY_USERNAME);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETION_USER_BY_USERNAME);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+    
     public boolean deleteById (long id){
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_USER_DELETE_BY_ID)){
@@ -71,24 +72,69 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-        }
+    }
 
 
     @Override
     public Optional<User> findById(long id) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_BY_ID);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            String username = resultSet.getString(USERNAME_COLUMN);
+            String password = resultSet.getString(PASSWORD_COLUMN);
+            String email = resultSet.getString(EMAIL_COLUMN);
+            String fullName = resultSet.getString(FULL_NAME_COLUMN);
+            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+            LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+            return Optional.of(User.newBuilder()
+                    .setId(id)
+                    .setUsername(username)
+                    .setPassword(password)
+                    .setEmail(email)
+                    .setFullName(fullName)
+                    .setCreateAt(createAt)
+                    .setUpdateAt(updateAt)
+                    .build());
+        } catch (SQLException ignored) {
+        }
         return Optional.empty();
     }
 
     @Override
     public List<User> findAll() {
-        return null;
+        try {
+            Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(SELECTION_ALL_USERS);
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(ID_COLUMN);
+                String username = resultSet.getString(USERNAME_COLUMN);
+                String password = resultSet.getString(PASSWORD_COLUMN);
+                String email = resultSet.getString(EMAIL_COLUMN);
+                String fullName = resultSet.getString(FULL_NAME_COLUMN);
+                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+                users.add(User.newBuilder()
+                        .setId(id)
+                        .setUsername(username)
+                        .setPassword(password)
+                        .setEmail(email)
+                        .setFullName(fullName)
+                        .setCreateAt(createAt)
+                        .setUpdateAt(updateAt)
+                        .build());
+            }
+            return users;
+        } catch (SQLException ignored) {
+        }
+        return new ArrayList<>();
     }
 
     public Optional<User> findUserByUsername(String username) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECTION_USER_BY_USERNAME);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_BY_USERNAME);
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -99,8 +145,15 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
             String fullName = resultSet.getString(FULL_NAME_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
             LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
-
-            return Optional.of(new User(id, username, password, email, fullName, createAt, updateAt));
+            return Optional.of(User.newBuilder()
+                    .setId(id)
+                    .setUsername(username)
+                    .setPassword(password)
+                    .setEmail(email)
+                    .setFullName(fullName)
+                    .setCreateAt(createAt)
+                    .setUpdateAt(updateAt)
+                    .build());
         } catch (SQLException ignored) {
         }
         return Optional.empty();

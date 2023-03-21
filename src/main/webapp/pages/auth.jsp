@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <form action="/auth" method="post">
     <input type="text" placeholder="Username">
     <br>
@@ -22,5 +23,6 @@
     <br>
     <button>Sign in</button>
 </form>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

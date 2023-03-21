@@ -19,7 +19,16 @@
     <p>${user.fullname}</p>
     <p>${user.createAt}</p>
     <p>${user.updateAt}</p>
+    <div>
+        <form action="/user/delete" method="post">
+
+            <input type="hidden" name="userid" value="${user.id}">
+
+            <button> delete account</button>
+        </form>
+    </div>
     <jsp:include page="footer.jsp"/>
 </div>
+
 </body>
 </html>

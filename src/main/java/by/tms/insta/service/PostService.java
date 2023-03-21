@@ -23,20 +23,29 @@ public class PostService {
         return instance;
     }
 
-    public Optional<Post> findPost(long id) {
-        return postStorage.findById(id);
+    public Optional<Post> findPost(Post post) {
+        return postStorage.findById(post.getId());
     }
 
     public List<Post> findAllPosts() {
         return postStorage.findAll();
     }
 
-    public void removePost(User user) {
-        postStorage.remove(user.getId());
+    public void removePost(long id) {
+        postStorage.remove(id);
     }
 
     public void createPost(Post post) {
         postStorage.save(post);
     }
+
+    public List<Post> findPosts(long id) {
+        return postStorage.remove(id);
+    }
+
+    public void createPost(Post post) {
+        postStorage.save(post);
+    }
+
 
 }

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class JDBCCommentStorage extends AbstractStorage implements Storage<Comment>{
     private static final String INSERTING_COMMENT = "insert into comments values (default, ?, ?, ?)";
+    private static final String DELETION_COMMENT_BY_ID = "delete from comments where id = ?";
     private static JDBCCommentStorage commentStorage;
     private JDBCCommentStorage(){
 
@@ -37,7 +38,13 @@ public class JDBCCommentStorage extends AbstractStorage implements Storage<Comme
 
     @Override
     public void remove(long id) {
-
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETION_COMMENT_BY_ID);
+            preparedStatement.setLong(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

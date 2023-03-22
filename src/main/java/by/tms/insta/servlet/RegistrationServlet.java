@@ -46,10 +46,10 @@ public class RegistrationServlet extends HttpServlet {
         Optional<User> byUsername = userService.findUserByUserName(username);
         if (byUsername.isEmpty()) {
             userService.createAccount(User.newBuilder()
-                    .setFullName(fullName)
-                    .setEmail(email)
                     .setUsername(username)
                     .setPassword(password)
+                    .setEmail(email)
+                    .setFullName(fullName)
                     .setCreateAt(LocalDateTime.now())
                     .setUpdateAt(LocalDateTime.now())
                     .setAvatar(avatar)

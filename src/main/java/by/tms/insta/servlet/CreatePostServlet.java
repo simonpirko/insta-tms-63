@@ -38,7 +38,7 @@ public class CreatePostServlet extends HttpServlet {
             throw new RuntimeException("User id is undefined");
         }
 
-        Post createPost = Post.newBuilder()
+        Post createPost = Post.builder()
                 .setCreator(userById.get())
                 .setDescription(description)
                 .setUrl(url)

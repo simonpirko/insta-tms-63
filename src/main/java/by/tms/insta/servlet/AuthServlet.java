@@ -41,7 +41,7 @@ public class AuthServlet extends HttpServlet {
         String email = req.getParameter(EMAIL);
         String username = req.getParameter(USERNAME);
         String password = req.getParameter(PASSWORD);
-        if (UserValidator.isValid(User.newBuilder().setUsername(username).setPassword(password).setEmail(email).build())) {
+        if (UserValidator.isValid(User.builder().setUsername(username).setPassword(password).setEmail(email).build())) {
             Optional<User> byUsername = UserService.getInstance().findUserByUserName(username);
             if (byUsername.isPresent()) {
                 User user = byUsername.get();

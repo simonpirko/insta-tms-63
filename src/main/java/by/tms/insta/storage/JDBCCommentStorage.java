@@ -1,21 +1,19 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.Comment;
-import by.tms.insta.entity.User;
 import by.tms.insta.service.UserService;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCCommentStorage extends AbstractStorage implements Storage<Comment> {
+public class JDBCCommentStorage extends AbstractStorage implements CommentStorage {
     private static final String INSERTING_COMMENT = "insert into comments values (default, ?, ?, ?)";
     private static final String DELETION_COMMENT_BY_ID = "delete from comments where id = ?";
     private static final String SELECTION_COMMENT_BY_ID = "select * from comments where id = ?";
+    private static final String SELECTION_ALL_COMMENTS = "select * from comments";
     private static final int ID_COLUMN = 1;
     private static final int BODY_COLUMN = 2;
     private static final int USER_ID_COLUMN = 3;
@@ -80,6 +78,25 @@ public class JDBCCommentStorage extends AbstractStorage implements Storage<Comme
 
     @Override
     public List<Comment> findAll() {
-        return null;
+        try {
+            Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(SELECTION_ALL_COMMENTS);
+            List<Comment> comments = new ArrayList<>();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(ID_COLUMN);
+                String body = resultSet.getString(BODY_COLUMN);
+                long userId = resultSet.getLong(USER_ID_COLUMN);
+                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                comments.add(Comment.builder()
+                        .setId(id)
+                        .setBody(body)
+                        .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setCreateAt(createAt)
+                        .build());
+            }
+            return comments;
+        } catch (SQLException ignored) {
+        }
+        return new ArrayList<>();
     }
 }

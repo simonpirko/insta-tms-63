@@ -1,5 +1,6 @@
 package by.tms.insta.entity;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Comment extends AbstractEntity {
@@ -18,27 +19,27 @@ public class Comment extends AbstractEntity {
         public CommentBuilder() {
         }
 
-        public CommentBuilder setId() {
+        public CommentBuilder setId(long id) {
             Comment.this.id = id;
             return this;
         }
 
-        public CommentBuilder setBody() {
+        public CommentBuilder setBody(String body) {
             Comment.this.body = body;
             return this;
         }
 
-        public CommentBuilder setAuthor() {
+        public CommentBuilder setAuthor(User author) {
             Comment.this.author = author;
             return this;
         }
 
-        public CommentBuilder setPost() {
+        public CommentBuilder setPost(Post post) {
             Comment.this.post = post;
             return this;
         }
 
-        public CommentBuilder setCreateAt() {
+        public CommentBuilder setCreateAt(LocalDateTime createAt) {
             Comment.this.createAt = createAt;
             return this;
         }

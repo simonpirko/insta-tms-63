@@ -3,6 +3,7 @@ package by.tms.insta.servlet;
 
 import by.tms.insta.entity.User;
 import by.tms.insta.service.UserService;
+import by.tms.insta.validators.UserValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,43 +17,52 @@ import java.util.Optional;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
-    private final UserService userService = UserService.getInstance();
-    private final LocalDateTime createAt = LocalDateTime.now();
-    private final LocalDateTime updateAt = LocalDateTime.now();
+    private static final String AVATAR = "avatar";
+    private static final String EMAIL = "email";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String MESSAGE = "message";
+    private static final String FULL_NAME = "fullName";
+    private static final String REG_PATH = "/pages/register.jsp";
+    private static final String AUTH_PATH = "/auth";
+    private static final String USER_ALREADY_EXISTS = "The user already exists!!!";
+    private static final String REGISTRATION_FAILED = "Registration failed. Check the correctness of the entered data!";
 
+    private final UserService userService = UserService.getInstance();
+    private final UserValidator userValidator = new UserValidator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher(REG_PATH).forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String fullName = req.getParameter("fullName");
-        String username = req.getParameter("username");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        String avatar = req.getParameter("avatar");
+        String fullName = req.getParameter(FULL_NAME);
+        String username = req.getParameter(USERNAME);
+        String email = req.getParameter(EMAIL);
+        String password = req.getParameter(PASSWORD);
+        String avatar = req.getParameter(AVATAR);
         Optional<User> byUsername = userService.findUserByUserName(username);
         if (byUsername.isEmpty()) {
             userService.createAccount(User.newBuilder()
-                    .setFullName(fullName)
-                    .setEmail(email)
                     .setUsername(username)
                     .setPassword(password)
-                    .setCreateAt(createAt)
-                    .setUpdateAt(updateAt)
+                    .setEmail(email)
+                    .setFullName(fullName)
+                    .setCreateAt(LocalDateTime.now())
+                    .setUpdateAt(LocalDateTime.now())
                     .setAvatar(avatar)
                     .build());
-            resp.sendRedirect("/auth");
+            resp.sendRedirect(AUTH_PATH);
             return;
         }
         if (byUsername.isPresent()) {
-            req.setAttribute("message", "The user already exists.");
+            req.setAttribute(MESSAGE, USER_ALREADY_EXISTS);
         } else {
-            req.setAttribute("message", "Registration failed. Check the correctness of the entered data!");
+            req.setAttribute(MESSAGE, REGISTRATION_FAILED);
         }
-        getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher(REG_PATH).forward(req, resp);
 
     }
 

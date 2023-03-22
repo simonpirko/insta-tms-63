@@ -14,6 +14,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
     private static final String DELETION_COMMENT_BY_ID = "delete from comments where id = ?";
     private static final String SELECTION_COMMENT_BY_ID = "select * from comments where id = ?";
     private static final String SELECTION_ALL_COMMENTS = "select * from comments";
+    private static final String SELECTION_ALL_COMMENTS_BY_USER_ID = "select * from comments where user_id = ?";
     private static final int ID_COLUMN = 1;
     private static final int BODY_COLUMN = 2;
     private static final int USER_ID_COLUMN = 3;
@@ -86,6 +87,30 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
                 long id = resultSet.getLong(ID_COLUMN);
                 String body = resultSet.getString(BODY_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
+                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                comments.add(Comment.builder()
+                        .setId(id)
+                        .setBody(body)
+                        .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setCreateAt(createAt)
+                        .build());
+            }
+            return comments;
+        } catch (SQLException ignored) {
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Comment> findAllCommentsByUserId(long userId) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_ALL_COMMENTS_BY_USER_ID);
+            preparedStatement.setLong(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Comment> comments = new ArrayList<>();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(ID_COLUMN);
+                String body = resultSet.getString(BODY_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
                 comments.add(Comment.builder()
                         .setId(id)

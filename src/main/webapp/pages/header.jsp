@@ -36,8 +36,8 @@
                         Dropdown
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="register.jsp">Register</a></li>
-                        <li><a class="dropdown-item" href="auth.jsp">Authorization</a></li>
+                        <li><a class="dropdown-item" href="/register">Register</a></li>
+                        <li><a class="dropdown-item" href="/auth">Authorization</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

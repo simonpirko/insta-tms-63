@@ -1,52 +1,63 @@
 package by.tms.insta.entity;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Comment extends AbstractEntity {
-
     private String body;
     private User author;
     private Post post;
 
-    public long getId() {
-        return id;
+    public Comment() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public static CommentBuilder builder() {
+        return new Comment().new CommentBuilder();
+    }
+
+    public class CommentBuilder {
+        public CommentBuilder() {
+        }
+
+        public CommentBuilder setId() {
+            Comment.this.id = id;
+            return this;
+        }
+
+        public CommentBuilder setBody() {
+            Comment.this.body = body;
+            return this;
+        }
+
+        public CommentBuilder setAuthor() {
+            Comment.this.author = author;
+            return this;
+        }
+
+        public CommentBuilder setPost() {
+            Comment.this.post = post;
+            return this;
+        }
+
+        public CommentBuilder setCreateAt() {
+            Comment.this.createAt = createAt;
+            return this;
+        }
+
+        public Comment build() {
+            return Comment.this;
+        }
     }
 
     public String getBody() {
         return body;
     }
 
-    public void setBody(String body) {
-        this.body = body;
-    }
-
     public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
     public Post getPost() {
         return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
     }
 
     @Override

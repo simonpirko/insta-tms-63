@@ -23,8 +23,8 @@ public class PostService {
         return instance;
     }
 
-    public Optional<Post> findPost(Post post) {
-        return postStorage.findById(post.getId());
+    public Optional<Post> findPostById(long id) {
+        return postStorage.findById(id);
     }
 
     public List<Post> findAllPosts() {

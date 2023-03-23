@@ -18,7 +18,7 @@ public class AuthServlet extends HttpServlet {
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
     private static final String AUTH_PATH = "/pages/auth.jsp";
-    private static final String PROFILE_PATH = "/pages/myPosts.jsp";
+    private static final String PROFILE_PATH = "/pages/profile.jsp";
     private static final String WRONG_PASSWORD_MESSAGE = "Wrong password!";
     private static final String USER_NOT_FOUND_MESSAGE = "User not found!";
 

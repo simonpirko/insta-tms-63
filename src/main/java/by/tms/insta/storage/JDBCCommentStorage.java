@@ -1,6 +1,7 @@
 package by.tms.insta.storage;
 
 import by.tms.insta.entity.Comment;
+import by.tms.insta.service.PostService;
 import by.tms.insta.service.UserService;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCCommentStorage extends AbstractStorage implements CommentStorage {
-    private static final String INSERTING_COMMENT = "insert into comments values (default, ?, ?, ?)";
+    private static final String INSERTING_COMMENT = "insert into comments values (default, ?, ?, ?, ?)";
     private static final String DELETION_COMMENT_BY_ID = "delete from comments where id = ?";
     private static final String SELECTION_COMMENT_BY_ID = "select * from comments where id = ?";
     private static final String SELECTION_ALL_COMMENTS = "select * from comments";
@@ -19,6 +20,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
     private static final int BODY_COLUMN = 2;
     private static final int USER_ID_COLUMN = 3;
     private static final int CREATE_AT_COLUMN = 4;
+    private static final int POST_ID_COLUMN = 5;
     private static JDBCCommentStorage commentStorage;
 
     private JDBCCommentStorage() {
@@ -39,6 +41,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
             preparedStatement.setString(1, comment.getBody());
             preparedStatement.setLong(2, comment.getAuthor().getId());
             preparedStatement.setTimestamp(3, Timestamp.valueOf(comment.getCreateAt()));
+            preparedStatement.setLong(4, comment.getAuthor().getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -66,11 +69,12 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
             String body = resultSet.getString(BODY_COLUMN);
             long userId = resultSet.getLong(USER_ID_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+            long postId = resultSet.getLong(POST_ID_COLUMN);
             return Optional.of(Comment.builder()
                     .setId(id)
                     .setBody(body)
                     .setAuthor(UserService.getInstance().findUserById(userId).get())
-                    .setCreateAt(createAt)
+                    .setCreateAt(createAt).setPost(PostService.getInstance().findPostById(postId).get())
                     .build());
         } catch (SQLException ignored) {
         }
@@ -88,10 +92,12 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
                 String body = resultSet.getString(BODY_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                long post_id = resultSet.getLong(POST_ID_COLUMN);
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
                         .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setPost(PostService.getInstance().findPostById(id).get())
                         .setCreateAt(createAt)
                         .build());
             }
@@ -112,10 +118,12 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
                 long id = resultSet.getLong(ID_COLUMN);
                 String body = resultSet.getString(BODY_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+                long postId = resultSet.getLong(POST_ID_COLUMN);
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
                         .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setPost(PostService.getInstance().findPostById(postId).get())
                         .setCreateAt(createAt)
                         .build());
             }

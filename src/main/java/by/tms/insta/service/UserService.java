@@ -30,10 +30,6 @@ public class UserService {
     public void removeAccount(User user) {
         userStorage.remove(user.getId());
     }
-
-    public Optional<User> findUser(String username) {
-        return userStorage.findUserByUsername(username);
-    }
     
     public Optional<User> findUserByUserName(String username) {
         return userStorage.findUserByUsername(username);

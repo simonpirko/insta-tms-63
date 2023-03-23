@@ -15,7 +15,7 @@ public class Post extends AbstractEntity {
 
     }
 
-    public static PostBuilder newBuilder() {
+    public static PostBuilder builder() {
         return new Post().new PostBuilder();
     }
 

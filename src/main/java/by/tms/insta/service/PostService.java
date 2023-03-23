@@ -1,5 +1,6 @@
 package by.tms.insta.service;
 
+import by.tms.insta.entity.Comment;
 import by.tms.insta.entity.Post;
 import by.tms.insta.entity.User;
 import by.tms.insta.storage.JDBCPostStorage;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 public class PostService {
     private PostStorage postStorage = JDBCPostStorage.getInstance();
+    private CommentService commentService = CommentService.getInstance();
     private static PostService instance;
 
     private PostService() {
@@ -23,8 +25,8 @@ public class PostService {
         return instance;
     }
 
-    public Optional<Post> findPost(Post post) {
-        return postStorage.findById(post.getId());
+    public Optional<Post> findPostById(long id) {
+        return postStorage.findById(id);
     }
 
     public List<Post> findAllPosts() {
@@ -43,5 +45,7 @@ public class PostService {
         postStorage.save(post);
     }
 
-
+    public List<Comment> getPostWithComments(Post post){
+        return commentService.findAllCommentsByPostId(post);
+    }
 }

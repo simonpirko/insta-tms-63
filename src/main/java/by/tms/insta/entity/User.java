@@ -16,7 +16,7 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public static UserBuilder newBuilder() {
+    public static UserBuilder builder() {
         return new User().new UserBuilder();
     }
 

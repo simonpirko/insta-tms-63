@@ -70,7 +70,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
             String url = resultSet.getString(URL_COLUMN);
             long userId = resultSet.getLong(USER_ID_COLUMN);
             LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            return Optional.of(Post.newBuilder()
+            return Optional.of(Post.builder()
                     .setId(id)
                     .setDescription(description)
                     .setUrl(url)
@@ -94,7 +94,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
                 String url = resultSet.getString(URL_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                posts.add(Post.newBuilder()
+                posts.add(Post.builder()
                         .setId(id)
                         .setDescription(description)
                         .setUrl(url)
@@ -122,7 +122,7 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
                 String url = resultSet.getString(URL_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                posts.add(Post.newBuilder()
+                posts.add(Post.builder()
                         .setId(id)
                         .setDescription(description)
                         .setUrl(url)

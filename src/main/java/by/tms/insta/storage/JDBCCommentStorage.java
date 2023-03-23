@@ -15,7 +15,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
     private static final String DELETION_COMMENT_BY_ID = "delete from comments where id = ?";
     private static final String SELECTION_COMMENT_BY_ID = "select * from comments where id = ?";
     private static final String SELECTION_ALL_COMMENTS = "select * from comments";
-    private static final String SELECTION_ALL_COMMENTS_BY_USER_ID = "select * from comments where user_id = ?";
+    private static final String SELECTION_ALL_COMMENTS_BY_POST_ID = "select * from comments where post_id = ?";
     private static final int ID_COLUMN = 1;
     private static final int BODY_COLUMN = 2;
     private static final int USER_ID_COLUMN = 3;
@@ -92,12 +92,12 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
                 String body = resultSet.getString(BODY_COLUMN);
                 long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                long post_id = resultSet.getLong(POST_ID_COLUMN);
+                long postId = resultSet.getLong(POST_ID_COLUMN);
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
                         .setAuthor(UserService.getInstance().findUserById(userId).get())
-                        .setPost(PostService.getInstance().findPostById(id).get())
+                        .setPost(PostService.getInstance().findPostById(postId).get())
                         .setCreateAt(createAt)
                         .build());
             }
@@ -108,17 +108,17 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
     }
 
     @Override
-    public List<Comment> findAllCommentsByUserId(long userId) {
+    public List<Comment> findAllCommentsByPostId(long postId) {
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_ALL_COMMENTS_BY_USER_ID);
-            preparedStatement.setLong(1, userId);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_ALL_COMMENTS_BY_POST_ID);
+            preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Comment> comments = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(ID_COLUMN);
                 String body = resultSet.getString(BODY_COLUMN);
+                long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                long postId = resultSet.getLong(POST_ID_COLUMN);
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)

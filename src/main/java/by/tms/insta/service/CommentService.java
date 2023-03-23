@@ -2,7 +2,6 @@ package by.tms.insta.service;
 
 import by.tms.insta.entity.Comment;
 import by.tms.insta.entity.Post;
-import by.tms.insta.entity.User;
 import by.tms.insta.storage.JDBCCommentStorage;
 
 import java.util.List;
@@ -31,15 +30,15 @@ public class CommentService {
         storage.remove(comment.getId());
     }
 
-    public Optional<Comment> findCommentById(Post post){
-        return storage.findById(post.getId());
+    public Optional<Comment> findCommentById(Comment comment){
+        return storage.findById(comment.getId());
     }
 
     public List<Comment> findAllComments(){
         return storage.findAll();
     }
 
-    public List<Comment> findAllCommentsByUserId(User user){
-        return storage.findAllCommentsByUserId(user.getId());
+    public List<Comment> findAllCommentsByPostId(Post post){
+        return storage.findAllCommentsByPostId(post.getId());
     }
 }

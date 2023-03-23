@@ -46,21 +46,7 @@
 <%--                        </div>--%>
 <%--                    </div>--%>
 <%--                </div>--%>
-                <form action="/comment" method="post">
-                    <label for="comment" class="form-label">leave comment</label>
-                    <textarea class="form-control" id="comment" rows="1"
-                              name="body" placeholder="comment"></textarea>
-                    <div class="row align-items-center h-100">
-                        <div class="col-md-7 offset-md-5">
-                            <div class="col-sm-2 my-auto">
-                                <div class="d-grid gap-2">
-                                    <p style="color: red">${message}</p>
-                                    <button class="btn btn-success flex-grow-0">post</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <a href="/comment">check all comments</a>
             </div>
         </div>
     </div>

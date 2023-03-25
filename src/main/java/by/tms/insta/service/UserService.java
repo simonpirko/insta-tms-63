@@ -45,4 +45,8 @@ public class UserService {
     public Optional<User> changePasswordById(User user) {
         return userStorage.changePasswordById(user);
     }
+
+    public Optional<User> changeEmailFullNameAvatarById(User user){
+        return userStorage.changeEmailFullNameAvatarById(user);
+    }
 }

@@ -64,12 +64,15 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public Optional<User> findById(long id) {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_BY_ID);
             preparedStatement.setLong(1, id);
-            return Optional.of(getUser(preparedStatement));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return Optional.of(getUser(resultSet));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
@@ -82,23 +85,7 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
             ResultSet resultSet = statement.executeQuery(SELECTION_ALL);
             List<User> users = new ArrayList<>();
             while (resultSet.next()) {
-                long id = resultSet.getLong(ID_COLUMN);
-                String username = resultSet.getString(USERNAME_COLUMN);
-                String password = resultSet.getString(PASSWORD_COLUMN);
-                String email = resultSet.getString(EMAIL_COLUMN);
-                String fullName = resultSet.getString(FULL_NAME_COLUMN);
-                LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-                LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
-                String avatar = resultSet.getString(AVATAR_COLUMN);
-                users.add(User.builder()
-                        .setId(id)
-                        .setUsername(username)
-                        .setPassword(password)
-                        .setEmail(email)
-                        .setFullName(fullName)
-                        .setCreateAt(createAt)
-                        .setUpdateAt(updateAt)
-                        .build());
+                users.add(getUser(resultSet));
             }
             return users;
         } catch (SQLException ignored) {
@@ -110,7 +97,9 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_BY_USERNAME);
             preparedStatement.setString(1, username);
-            return Optional.of(getUser(preparedStatement));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return Optional.of(getUser(resultSet));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
@@ -123,7 +112,9 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
             preparedStatement.setString(1, user.getPassword());
             preparedStatement.setTimestamp(2, Timestamp.valueOf(user.getUpdateAt()));
             preparedStatement.setLong(3, user.getId());
-            return Optional.of(getUser(preparedStatement));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return Optional.of(getUser(resultSet));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
@@ -138,15 +129,15 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
             preparedStatement.setString(3, user.getAvatar());
             preparedStatement.setTimestamp(4, Timestamp.valueOf(user.getUpdateAt()));
             preparedStatement.setLong(5, user.getId());
-            return Optional.of(getUser(preparedStatement));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return Optional.of(getUser(resultSet));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
     }
 
-    private User getUser(PreparedStatement preparedStatement) throws SQLException {
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
+    private User getUser(ResultSet resultSet) throws SQLException {
         long id = resultSet.getLong(ID_COLUMN);
         String username = resultSet.getString(USERNAME_COLUMN);
         String password = resultSet.getString(PASSWORD_COLUMN);

@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PostService {
-    private PostStorage postStorage = JDBCPostStorage.getInstance();
-    private CommentService commentService = CommentService.getInstance();
+    private final PostStorage postStorage = JDBCPostStorage.getInstance();
+    private final CommentService commentService = CommentService.getInstance();
     private static PostService instance;
 
     private PostService() {

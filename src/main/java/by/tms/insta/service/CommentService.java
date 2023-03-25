@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class CommentService {
     private static CommentService commentService;
-    private static final JDBCCommentStorage storage = JDBCCommentStorage.getInstance();
+    private final JDBCCommentStorage storage = JDBCCommentStorage.getInstance();
 
     private CommentService() {
 

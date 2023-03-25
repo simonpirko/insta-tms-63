@@ -74,7 +74,7 @@ public class JDBCPostDAO extends AbstractDAO implements PostDAO {
                     .setId(id)
                     .setDescription(description)
                     .setUrl(url)
-                    .setCreator(UserService.getInstance().findUserById(userId).get())
+                    .setCreator(UserService.getInstance().findById(userId).get())
                     .setCreateAt(createAt)
                     .build());
         } catch (SQLException ignored) {
@@ -98,7 +98,7 @@ public class JDBCPostDAO extends AbstractDAO implements PostDAO {
                         .setId(id)
                         .setDescription(description)
                         .setUrl(url)
-                        .setCreator(UserService.getInstance().findUserById(userId).get())
+                        .setCreator(UserService.getInstance().findById(userId).get())
                         .setCreateAt(createAt)
                         .build());
             }
@@ -126,7 +126,7 @@ public class JDBCPostDAO extends AbstractDAO implements PostDAO {
                         .setId(id)
                         .setDescription(description)
                         .setUrl(url)
-                        .setCreator(UserService.getInstance().findUserById(userId).get())
+                        .setCreator(UserService.getInstance().findById(userId).get())
                         .setCreateAt(createAt)
                         .build());
             }

@@ -73,7 +73,7 @@ public class JDBCCommentDAO extends AbstractDAO implements CommentDAO {
             return Optional.of(Comment.builder()
                     .setId(id)
                     .setBody(body)
-                    .setAuthor(UserService.getInstance().findUserById(userId).get())
+                    .setAuthor(UserService.getInstance().findById(userId).get())
                     .setCreateAt(createAt).setPost(PostService.getInstance().findPostById(postId).get())
                     .build());
         } catch (SQLException ignored) {
@@ -96,7 +96,7 @@ public class JDBCCommentDAO extends AbstractDAO implements CommentDAO {
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
-                        .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setAuthor(UserService.getInstance().findById(userId).get())
                         .setPost(PostService.getInstance().findPostById(postId).get())
                         .setCreateAt(createAt)
                         .build());
@@ -122,7 +122,7 @@ public class JDBCCommentDAO extends AbstractDAO implements CommentDAO {
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
-                        .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setAuthor(UserService.getInstance().findById(userId).get())
                         .setPost(PostService.getInstance().findPostById(postId).get())
                         .setCreateAt(createAt)
                         .build());

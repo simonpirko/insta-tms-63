@@ -33,7 +33,7 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter(USERNAME);
         String password = req.getParameter(PASSWORD);
 
-        Optional<User> byUsername = UserService.getInstance().findUserByUserName(username);
+        Optional<User> byUsername = UserService.getInstance().findByUserName(username);
         if (byUsername.isPresent()) {
             User user = byUsername.get();
             if (user.getPassword().equals(password)) {

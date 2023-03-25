@@ -1,8 +1,8 @@
 package by.tms.insta.service;
 
 import by.tms.insta.entity.User;
-import by.tms.insta.storage.JDBCUserStorage;
-import by.tms.insta.storage.UserStorage;
+import by.tms.insta.dao.JDBCUserDAO;
+import by.tms.insta.dao.UserDAO;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Optional;
 public class UserService {
 
     private static UserService userService;
-    private final UserStorage userStorage = JDBCUserStorage.getInstance();
+    private final UserDAO userStorage = JDBCUserDAO.getInstance();
 
     private UserService() {
     }

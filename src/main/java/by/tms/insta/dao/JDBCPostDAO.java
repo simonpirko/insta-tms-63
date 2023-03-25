@@ -1,4 +1,4 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import by.tms.insta.entity.Post;
 import by.tms.insta.service.UserService;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCPostStorage extends AbstractStorage implements PostStorage {
+public class JDBCPostDAO extends AbstractDAO implements PostDAO {
     private static final String INSERTING_POST = "insert into posts values (default, ?, ?, ?, ?)";
     private static final String DELETION_POST_BY_ID = "delete from posts where id = ?";
     private static final String SELECTION_BY_ID = "select * from posts where id = ?";
@@ -20,14 +20,14 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
     private static final int URL_COLUMN = 3;
     private static final int USER_ID_COLUMN = 4;
     private static final int CREATE_AT_COLUMN = 5;
-    private static JDBCPostStorage postStorage;
+    private static JDBCPostDAO postStorage;
 
-    public JDBCPostStorage() {
+    public JDBCPostDAO() {
     }
 
-    public static JDBCPostStorage getInstance() {
+    public static JDBCPostDAO getInstance() {
         if (postStorage == null) {
-            postStorage = new JDBCPostStorage();
+            postStorage = new JDBCPostDAO();
         }
         return postStorage;
     }

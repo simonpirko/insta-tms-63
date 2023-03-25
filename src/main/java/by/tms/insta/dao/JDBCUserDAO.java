@@ -1,4 +1,4 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import by.tms.insta.entity.User;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCUserStorage extends AbstractStorage implements UserStorage {
+public class JDBCUserDAO extends AbstractDAO implements UserDAO {
     private static final int ID_COLUMN = 1;
     private static final int USERNAME_COLUMN = 2;
     private static final int PASSWORD_COLUMN = 3;
@@ -23,16 +23,16 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     private static final String SELECTION_USER_BY_ID = "select * from users where id = ?";
     private static final String SELECTION_ALL_USERS = "select * from users";
 
-    private static JDBCUserStorage userStorage;
+    private static JDBCUserDAO userStorage;
 
-    public static JDBCUserStorage getInstance() {
+    public static JDBCUserDAO getInstance() {
         if (userStorage == null) {
-            userStorage = new JDBCUserStorage();
+            userStorage = new JDBCUserDAO();
         }
         return userStorage;
     }
     
-    private JDBCUserStorage() {
+    private JDBCUserDAO() {
     }
 
     @Override

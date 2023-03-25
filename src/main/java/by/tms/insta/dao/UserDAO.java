@@ -1,9 +1,9 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import by.tms.insta.entity.User;
 
 import java.util.Optional;
 
-public interface UserStorage extends Storage<User> {
+public interface UserDAO extends DAO<User> {
     Optional<User> findUserByUsername(String username);
 }

@@ -2,15 +2,14 @@ package by.tms.insta.service;
 
 import by.tms.insta.entity.Comment;
 import by.tms.insta.entity.Post;
-import by.tms.insta.entity.User;
-import by.tms.insta.storage.JDBCPostStorage;
-import by.tms.insta.storage.PostStorage;
+import by.tms.insta.dao.JDBCPostDAO;
+import by.tms.insta.dao.PostDAO;
 
 import java.util.List;
 import java.util.Optional;
 
 public class PostService {
-    private final PostStorage postStorage = JDBCPostStorage.getInstance();
+    private final PostDAO postStorage = JDBCPostDAO.getInstance();
     private final CommentService commentService = CommentService.getInstance();
     private static PostService instance;
 

@@ -64,29 +64,12 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public Optional<User> findById(long id) {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_BY_ID);
             preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            String username = resultSet.getString(USERNAME_COLUMN);
-            String password = resultSet.getString(PASSWORD_COLUMN);
-            String email = resultSet.getString(EMAIL_COLUMN);
-            String fullName = resultSet.getString(FULL_NAME_COLUMN);
-            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
-            return Optional.of(User.builder()
-                    .setId(id)
-                    .setUsername(username)
-                    .setPassword(password)
-                    .setEmail(email)
-                    .setFullName(fullName)
-                    .setCreateAt(createAt)
-                    .setUpdateAt(updateAt)
-                    .build());
+            return Optional.of(getUser(preparedStatement));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
@@ -106,6 +89,7 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
                 String fullName = resultSet.getString(FULL_NAME_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
                 LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+                String avatar = resultSet.getString(AVATAR_COLUMN);
                 users.add(User.builder()
                         .setId(id)
                         .setUsername(username)
@@ -126,26 +110,7 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_BY_USERNAME);
             preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            resultSet.next();
-            long id = resultSet.getLong(ID_COLUMN);
-            String password = resultSet.getString(PASSWORD_COLUMN);
-            String email = resultSet.getString(EMAIL_COLUMN);
-            String fullName = resultSet.getString(FULL_NAME_COLUMN);
-            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
-            String avatar = resultSet.getString(AVATAR_COLUMN);
-            return Optional.of(User.builder()
-                    .setId(id)
-                    .setUsername(username)
-                    .setPassword(password)
-                    .setEmail(email)
-                    .setFullName(fullName)
-                    .setCreateAt(createAt)
-                    .setUpdateAt(updateAt)
-                    .setAvatar(avatar)
-                    .build());
+            return Optional.of(getUser(preparedStatement));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
@@ -158,33 +123,47 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
             preparedStatement.setString(1, user.getPassword());
             preparedStatement.setTimestamp(2, Timestamp.valueOf(user.getUpdateAt()));
             preparedStatement.setLong(3, user.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            long id = resultSet.getLong(ID_COLUMN);
-            String username = resultSet.getString(USERNAME_COLUMN);
-            String password = resultSet.getString(PASSWORD_COLUMN);
-            String email = resultSet.getString(EMAIL_COLUMN);
-            String fullName = resultSet.getString(FULL_NAME_COLUMN);
-            LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
-            LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
-            String avatar = resultSet.getString(AVATAR_COLUMN);
-            return Optional.of(User.builder()
-                    .setId(id)
-                    .setUsername(username)
-                    .setPassword(password)
-                    .setEmail(email)
-                    .setFullName(fullName)
-                    .setCreateAt(createAt)
-                    .setUpdateAt(updateAt)
-                    .setAvatar(avatar)
-                    .build());
+            return Optional.of(getUser(preparedStatement));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> changeInfoNameById(User user) {
+    public Optional<User> changeEmailFullNameAvatarById(User user) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATED_EMAIL_FULL_NAME_AVATAR);
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getFullName());
+            preparedStatement.setString(3, user.getAvatar());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(user.getUpdateAt()));
+            preparedStatement.setLong(5, user.getId());
+            return Optional.of(getUser(preparedStatement));
+        } catch (SQLException ignored) {
+        }
         return Optional.empty();
+    }
+
+    private User getUser(PreparedStatement preparedStatement) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        long id = resultSet.getLong(ID_COLUMN);
+        String username = resultSet.getString(USERNAME_COLUMN);
+        String password = resultSet.getString(PASSWORD_COLUMN);
+        String email = resultSet.getString(EMAIL_COLUMN);
+        String fullName = resultSet.getString(FULL_NAME_COLUMN);
+        LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
+        LocalDateTime updateAt = resultSet.getTimestamp(UPDATE_AT_COLUMN).toLocalDateTime();
+        String avatar = resultSet.getString(AVATAR_COLUMN);
+        return User.builder()
+                .setId(id)
+                .setUsername(username)
+                .setPassword(password)
+                .setEmail(email)
+                .setFullName(fullName)
+                .setCreateAt(createAt)
+                .setUpdateAt(updateAt)
+                .setAvatar(avatar)
+                .build();
     }
 }

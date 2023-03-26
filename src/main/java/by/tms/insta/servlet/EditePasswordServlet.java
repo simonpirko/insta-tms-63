@@ -25,6 +25,8 @@ public class EditePasswordServlet extends HttpServlet {
     private static final String PASSWORDS_ARE_NOT_EQUAL_MESSAGE = "passwords aren't equal";
     private static final String PASSWORD_IS_INVALID_MESSAGE = "password is invalid";
     private static final String EDITING_PASSWORD_PAGE_PATH = "/pages/editingPassword.jsp";
+    private final UserService userService = UserService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect(EDITING_PASSWORD_PAGE_PATH);
@@ -39,12 +41,11 @@ public class EditePasswordServlet extends HttpServlet {
         if (currentUser.getPassword().equals(oldPassword)) {
             if (UserValidator.isPasswordValid(newPassword)) {
                 if (newPassword.equals(repeatingNewPassword)) {
-                    Optional<User> user = UserService.getInstance()
-                            .changePasswordById(User.builder()
-                                    .setId(currentUser.getId())
-                                    .setPassword(newPassword)
-                                    .setUpdateAt(LocalDateTime.now())
-                                    .build());
+                    User user = userService.changePasswordById(User.builder()
+                            .setId(currentUser.getId())
+                            .setPassword(newPassword)
+                            .setUpdateAt(LocalDateTime.now())
+                            .build()).get();
                     req.getSession().setAttribute(USER, user);
                     req.setAttribute(MESSAGE, SAVE_NEW_PASSWORD_MESSAGE);
                 } else {

@@ -38,7 +38,7 @@ public class AuthServlet extends HttpServlet {
             User user = byUsername.get();
             if (user.getPassword().equals(password)) {
                 req.getSession().setAttribute(USER, user);
-                resp.sendRedirect(PROFILE_PATH);
+                getServletContext().getRequestDispatcher(PROFILE_PATH).forward(req,resp);
                 return;
             } else {
                 req.setAttribute(MESSAGE, WRONG_PASSWORD_MESSAGE);

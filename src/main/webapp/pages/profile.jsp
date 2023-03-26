@@ -12,13 +12,13 @@
 </head>
 <body>
 <div class="container">
-<jsp:include page="header.jsp"/>
-<%--    <p>${user.username}</p>--%>
-<%--    <p>${user.password}</p>--%>
-<%--    <p>${user.email}</p>--%>
-<%--    <p>${user.fullname}</p>--%>
-<%--    <p>${user.createAt}</p>--%>
-<%--    <p>${user.updateAt}</p>--%>
+    <jsp:include page="header.jsp"/>
+    <%--    <p>${user.username}</p>--%>
+    <%--    <p>${user.password}</p>--%>
+    <%--    <p>${user.email}</p>--%>
+    <%--    <p>${user.fullname}</p>--%>
+    <%--    <p>${user.createAt}</p>--%>
+    <%--    <p>${user.updateAt}</p>--%>
     <div>
         <form action="/user/delete" method="post">
 
@@ -26,6 +26,8 @@
 
             <button> delete account</button>
         </form>
+        <button class="btn btn-primary"><a href="/editPassword" style="color: aliceblue">change password</a></button>
+        <button class="btn btn-primary"><a href="/editePersonalInfo" style="color: aliceblue">change personal info</a></button>
     </div>
     <jsp:include page="footer.jsp"/>
 </div>

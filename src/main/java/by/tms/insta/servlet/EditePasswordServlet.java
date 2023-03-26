@@ -15,17 +15,27 @@ import java.util.Optional;
 
 @WebServlet("/editPassword")
 public class EditePasswordServlet extends HttpServlet {
+    private static final String OLD_PASSWORD = "oldPassword";
+    private static final String NEW_PASSWORD = "newPassword";
+    private static final String REPEATING_NEW_PASSWORD = "repeatingNewPassword";
+    private static final String USER = "user";
+    private static final String MESSAGE = "message";
+    private static final String WRONG_PASSWORD_MESSAGE = "wrong password";
+    private static final String SAVE_NEW_PASSWORD_MESSAGE = "save new password";
+    private static final String PASSWORDS_ARE_NOT_EQUAL_MESSAGE = "passwords aren't equal";
+    private static final String PASSWORD_IS_INVALID_MESSAGE = "password is invalid";
+    private static final String EDITING_PASSWORD_PAGE_PATH = "/pages/editingPassword.jsp";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/pages/editingPassword.jsp");
+        resp.sendRedirect(EDITING_PASSWORD_PAGE_PATH);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String oldPassword = req.getParameter("oldPassword");
-        String newPassword = req.getParameter("newPassword");
-        String repeatingNewPassword = req.getParameter("repeatingNewPassword");
-        User currentUser = (User) req.getSession().getAttribute("user");
+        String oldPassword = req.getParameter(OLD_PASSWORD);
+        String newPassword = req.getParameter(NEW_PASSWORD);
+        String repeatingNewPassword = req.getParameter(REPEATING_NEW_PASSWORD);
+        User currentUser = (User) req.getSession().getAttribute(USER);
         if (currentUser.getPassword().equals(oldPassword)) {
             if (UserValidator.isPasswordValid(newPassword)) {
                 if (newPassword.equals(repeatingNewPassword)) {
@@ -35,17 +45,17 @@ public class EditePasswordServlet extends HttpServlet {
                                     .setPassword(newPassword)
                                     .setUpdateAt(LocalDateTime.now())
                                     .build());
-                    req.getSession().setAttribute("user", user);
-                    req.setAttribute("message", "save correctly");
+                    req.getSession().setAttribute(USER, user);
+                    req.setAttribute(MESSAGE, SAVE_NEW_PASSWORD_MESSAGE);
                 } else {
-                    req.setAttribute("message", "not equals");
+                    req.setAttribute(MESSAGE, PASSWORDS_ARE_NOT_EQUAL_MESSAGE);
                 }
             } else {
-                req.setAttribute("message", "is invalid");
+                req.setAttribute(MESSAGE, PASSWORD_IS_INVALID_MESSAGE);
             }
         } else {
-            req.setAttribute("message", "wrong password");
+            req.setAttribute(MESSAGE, WRONG_PASSWORD_MESSAGE);
         }
-        getServletContext().getRequestDispatcher("/pages/editingPassword.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher(EDITING_PASSWORD_PAGE_PATH).forward(req, resp);
     }
 }

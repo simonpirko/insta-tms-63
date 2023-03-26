@@ -10,12 +10,12 @@
     <jsp:include page="header.jsp"/>
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">
-            <form action="/changePassword" method="post">
+            <form action="/editPassword" method="post">
                 <p>Change password:</p>
                 <div class="col-sm-4 my-auto">
-                    <p><input type="password" class="form-control" name="currentPassword" placeholder="Current password"></p>
+                    <p><input type="password" class="form-control" name="oldPassword" placeholder="Current password"></p>
                     <p><input type="password" class="form-control" name="newPassword" placeholder="New password"></p>
-                    <p><input type="password" class="form-control" name="newPasswordAgain" placeholder="New password, again"></p>
+                    <p><input type="password" class="form-control" name="repeatingNewPassword" placeholder="New password, again"></p>
                     <div class="d-grid gap-2">
                         <p style="color: red">${message}</p>
                         <button class="btn btn-success">save</button>

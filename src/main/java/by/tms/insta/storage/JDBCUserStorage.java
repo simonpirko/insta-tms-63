@@ -31,7 +31,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
         }
         return userStorage;
     }
-    
+
     private JDBCUserStorage() {
     }
 
@@ -39,10 +39,10 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
     public void save(User user) {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(INSERTING_USER);
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getFullName());
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
             preparedStatement.setTimestamp(5, Timestamp.valueOf(user.getCreateAt()));
             preparedStatement.setTimestamp(6, Timestamp.valueOf(user.getUpdateAt()));
             preparedStatement.setString(7, user.getAvatar());
@@ -61,6 +61,7 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     @Override
@@ -115,9 +116,10 @@ public class JDBCUserStorage extends AbstractStorage implements UserStorage {
                         .build());
             }
             return users;
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return new ArrayList<>();
+
     }
 
     public Optional<User> findUserByUsername(String username) {

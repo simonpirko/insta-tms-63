@@ -104,10 +104,9 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
             }
             return posts;
 
-        } catch (SQLException ignored) {
-
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return new ArrayList<>();
     }
 
     @Override
@@ -131,8 +130,8 @@ public class JDBCPostStorage extends AbstractStorage implements PostStorage {
                         .build());
             }
             return posts;
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return new ArrayList<>();
     }
 }

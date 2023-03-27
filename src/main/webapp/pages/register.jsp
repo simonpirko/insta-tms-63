@@ -7,7 +7,6 @@
 </head>
 
 <body>
-<jsp:include page="header.jsp"/>
 <div class="container">
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">

@@ -27,9 +27,7 @@ public class RegistrationServlet extends HttpServlet {
     private static final String AUTH_PATH = "/auth";
     private static final String USER_ALREADY_EXISTS = "The user already exists!!!";
     private static final String REGISTRATION_FAILED = "Registration failed. Check the correctness of the entered data!";
-
     private final UserService userService = UserService.getInstance();
-    private final UserValidator userValidator = new UserValidator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,17 +41,18 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter(EMAIL);
         String password = req.getParameter(PASSWORD);
         String avatar = req.getParameter(AVATAR);
+        User user = User.builder()
+                .setUsername(username)
+                .setPassword(password)
+                .setEmail(email)
+                .setFullName(fullName)
+                .setCreateAt(LocalDateTime.now())
+                .setUpdateAt(LocalDateTime.now())
+                .setAvatar(avatar)
+                .build();
         Optional<User> byUsername = userService.findUserByUserName(username);
-        if (byUsername.isEmpty()) {
-            userService.createAccount(User.builder()
-                    .setUsername(username)
-                    .setPassword(password)
-                    .setEmail(email)
-                    .setFullName(fullName)
-                    .setCreateAt(LocalDateTime.now())
-                    .setUpdateAt(LocalDateTime.now())
-                    .setAvatar(avatar)
-                    .build());
+        if (byUsername.isEmpty() && UserValidator.isValid(user)) {
+            UserService.getInstance().createAccount(user);
             resp.sendRedirect(AUTH_PATH);
             return;
         }

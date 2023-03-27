@@ -13,11 +13,11 @@
             <form action="/register" method="post">
                 <p>Registration:</p>
                 <div class="col-sm-4 my-auto">
-                    <p><input type="email" class="form-control" name="email" placeholder="Email"></p>
-                    <p><input type="text" class="form-control" name="fullName" placeholder="Full Name"></p>
-                    <p><input type="text" class="form-control" name="username" placeholder="Username"></p>
-                    <p><input type="password" class="form-control" name="password" placeholder="Password"></p>
-                    <p><input type="url" class="form-control" name="avatar" placeholder="Avatar"></p>
+                    <p><input type="email" class="form-control" name="email" required placeholder="Email"></p>
+                    <p><input type="text" class="form-control" name="fullName" required placeholder="Full Name"></p>
+                    <p><input type="text" class="form-control" name="username" required placeholder="Username"></p>
+                    <p><input type="password" class="form-control" name="password" required placeholder="Password"></p>
+                    <p><input type="url" class="form-control" name="avatar" required placeholder="Avatar"></p>
                     <div class="d-grid gap-2">
                         <button class="btn btn-success">Sign up</button>
                         <button class="btn btn-primary"><a href="/auth" style="color: aliceblue">Authorization</a>

@@ -13,13 +13,13 @@
             <form action="/auth" method="post">
                 <p>Authorization:</p>
                 <div class="col-sm-4 my-auto">
-                    <p><input type="text" class="form-control" name="fullName" placeholder="Full name"></p>
                     <p><input type="text" class="form-control" name="username" placeholder="Username"></p>
                     <p><input type="password" class="form-control" name="password" placeholder="Password"></p>
                     <div class="d-grid gap-2">
                         <p style="color: red">${message}</p>
                         <button class="btn btn-success">Log in</button>
-                        <button class="btn btn-primary"><a href="/register" style="color: aliceblue">Registration</a></button>
+                        <button class="btn btn-primary"><a href="/register" style="color: aliceblue">Registration</a>
+                        </button>
                     </div>
                 </div>
             </form>

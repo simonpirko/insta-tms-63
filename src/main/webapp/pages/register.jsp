@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">
-            <form action="/register" method="post">
+            <br action="/register" method="post">
                 <p>Registration:</p>
                 <div class="col-sm-4 my-auto">
                     <p><input type="email" class="form-control" name="email" required placeholder="Email"></p>
@@ -18,6 +18,7 @@
                     <p><input type="text" class="form-control" name="username" required placeholder="Username"></p>
                     <p><input type="password" class="form-control" name="password" required placeholder="Password"></p>
                     <p><input type="url" class="form-control" name="avatar" required placeholder="Avatar"></p>
+                    <br>
                     <div class="d-grid gap-2">
                         <button class="btn btn-success">Sign up</button>
                         <button class="btn btn-primary"><a href="/auth" style="color: aliceblue">Authorization</a>
@@ -25,6 +26,7 @@
                     </div>
                     <p style="color: red">${message}</p>
                 </div>
+            </br>
             </form>
         </div>
     </div>

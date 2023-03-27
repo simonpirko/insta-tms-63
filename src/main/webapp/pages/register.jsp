@@ -19,7 +19,7 @@
                     <p><input type="password" class="form-control" name="password" placeholder="Password"></p>
                     <p><input type="url" class="form-control" name="avatar" placeholder="Avatar"></p>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary">Sign up</button>
+                        <button class="btn btn-success">Sign up</button>
                         <button class="btn btn-primary"><a href="/auth" style="color: aliceblue">Authorization</a>
                         </button>
                     </div>

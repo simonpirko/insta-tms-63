@@ -7,27 +7,30 @@
 </head>
 
 <body>
-<jsp:include page="header.jsp"/>
-<form action="/register" method="post">
-    <div class="container">
-        <div class="row align-items-center h-100">
-            <div class="col-md-8 offset-md-5">
+<div class="container">
+    <div class="row align-items-center h-100">
+        <div class="col-md-8 offset-md-5">
+            <br action="/register" method="post">
                 <p>Registration:</p>
                 <div class="col-sm-4 my-auto">
-                    <p><input type="text" class="form-control" name="email" placeholder="Email"></p>
-                    <p><input type="text" class="form-control" name="fullName" placeholder="Full Name"></p>
-                    <p><input type="text" class="form-control" name="username" placeholder="Username"></p>
-                    <p><input type="password" class="form-control" name="password" placeholder="Password"></p>
-                    <p><input type="url" class="form-control" name="avatar" placeholder="Avatar"></p>
+                    <p><input type="email" class="form-control" name="email" required placeholder="Email"></p>
+                    <p><input type="text" class="form-control" name="fullName" required placeholder="Full Name"></p>
+                    <p><input type="text" class="form-control" name="username" required placeholder="Username"></p>
+                    <p><input type="password" class="form-control" name="password" required placeholder="Password"></p>
+                    <p><input type="url" class="form-control" name="avatar" required placeholder="Avatar"></p>
+                    <br>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary">Sign up</button>
+                        <button class="btn btn-success">Sign up</button>
+                        <button class="btn btn-primary"><a href="/auth" style="color: aliceblue">Authorization</a>
+                        </button>
                     </div>
                     <p style="color: red">${message}</p>
                 </div>
-            </div>
+            </br>
+            </form>
         </div>
     </div>
-</form>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>

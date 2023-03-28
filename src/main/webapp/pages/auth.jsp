@@ -13,19 +13,17 @@
             <form action="/auth" method="post">
                 <p>Authorization:</p>
                 <div class="col-sm-4 my-auto">
-                    <p><input type="text" class="form-control" name="fullName" placeholder="Full name"></p>
                     <p><input type="text" class="form-control" name="username" placeholder="Username"></p>
                     <p><input type="password" class="form-control" name="password" placeholder="Password"></p>
                     <div class="d-grid gap-2">
                         <p style="color: red">${message}</p>
                         <button class="btn btn-success">Log in</button>
-                        </button>
+                        <button class="btn btn-primary"><a href="/register" style="color: aliceblue">Registration</a></button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <jsp:include page="footer.jsp"/>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"

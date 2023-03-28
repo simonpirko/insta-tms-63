@@ -21,8 +21,6 @@
                     <div class="d-grid gap-2">
                         <p style="color: red">${message}</p>
                         <button class="btn btn-success">save</button>
-                        <button class="btn btn-primary"><a href="/pages/profile.jsp"
-                                                           style="color: aliceblue">profile</a></button>
                     </div>
                 </div>
             </form>

@@ -19,7 +19,6 @@
                     <div class="d-grid gap-2">
                         <p style="color: red">${message}</p>
                         <button class="btn btn-success">Log in</button>
-                        <button class="btn btn-primary"><a href="/register" style="color: aliceblue">Registration</a>
                         </button>
                     </div>
                 </div>

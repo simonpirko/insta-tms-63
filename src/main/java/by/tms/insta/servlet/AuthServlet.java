@@ -18,7 +18,7 @@ public class AuthServlet extends HttpServlet {
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
     private static final String AUTH_PATH = "/pages/auth.jsp";
-    private static final String PROFILE_PATH = "/pages/profile.jsp";
+    private static final String ACCOUNT_PATH = "/pages/account.jsp";
     private static final String WRONG_PASSWORD_MESSAGE = "Wrong password!";
     private static final String USER_NOT_FOUND_MESSAGE = "User not found!";
 
@@ -33,12 +33,12 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter(USERNAME);
         String password = req.getParameter(PASSWORD);
 
-        Optional<User> byUsername = UserService.getInstance().findUserByUserName(username);
+        Optional<User> byUsername = UserService.getInstance().findByUserName(username);
         if (byUsername.isPresent()) {
             User user = byUsername.get();
             if (user.getPassword().equals(password)) {
                 req.getSession().setAttribute(USER, user);
-                resp.sendRedirect(PROFILE_PATH);
+                getServletContext().getRequestDispatcher(ACCOUNT_PATH).forward(req,resp);
                 return;
             } else {
                 req.setAttribute(MESSAGE, WRONG_PASSWORD_MESSAGE);

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet("/post/create")
+@WebServlet("/createPost")
 public class CreatePostServlet extends HttpServlet {
 
     PostService postService = PostService.getInstance();
@@ -30,7 +30,7 @@ public class CreatePostServlet extends HttpServlet {
         long userId = Long.parseLong((String) req.getSession().getAttribute(USER_ID));
         String description = req.getParameter(DESCRIPTION);
         String url = req.getParameter(URL);
-        Optional<User> userById = userService.findUserById(userId);
+        Optional<User> userById = userService.findById(userId);
         if (userById.isEmpty()) {
 
             //        resp.sendRedirect("/post.jsp"); todo add error pages

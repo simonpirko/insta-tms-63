@@ -1,9 +1,9 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface Storage<T> {
+public interface DAO<T> {
     void save(T value);
     void remove(long id);
     Optional<T> findById(long id);

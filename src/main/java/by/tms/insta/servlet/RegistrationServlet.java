@@ -50,7 +50,7 @@ public class RegistrationServlet extends HttpServlet {
                 .setUpdateAt(LocalDateTime.now())
                 .setAvatar(avatar)
                 .build();
-        Optional<User> byUsername = userService.findByUserName(username);
+        Optional<User> byUsername = userService.findByUserName(username) ;
         if (byUsername.isEmpty() && UserValidator.isValid(user)) {
             UserService.getInstance().createAccount(user);
             resp.sendRedirect(AUTH_PATH);

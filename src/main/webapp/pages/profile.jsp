@@ -1,36 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Администратор
-  Date: 13.03.2023
-  Time: 9:20
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Profile</title>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div class="container">
-    <jsp:include page="header.jsp"/>
-    <%--    <p>${user.username}</p>--%>
-    <%--    <p>${user.password}</p>--%>
-    <%--    <p>${user.email}</p>--%>
-    <%--    <p>${user.fullname}</p>--%>
-    <%--    <p>${user.createAt}</p>--%>
-    <%--    <p>${user.updateAt}</p>--%>
-    <div>
-        <form action="/user/delete" method="post">
-
-            <input type="hidden" name="userid" value="${user.id}">
-
-            <button> delete account</button>
-        </form>
-        <button class="btn btn-primary"><a href="/editPassword" style="color: aliceblue">change password</a></button>
-        <button class="btn btn-primary"><a href="/editePersonalInfo" style="color: aliceblue">change personal info</a></button>
+    <div style="max-width: 700px">
+        <div class="card flex-grow-1 " style="border-radius: 15px; border: none">
+            <div class="d-flex">
+                <div class="flex-shrink-0"><img src="${sessionScope.user.avatar}"
+                                                class="rounded-circle d-flex" style="width: 50px"
+                                                alt="Avatar"/></div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>@${sessionScope.user.username}</h5>
+                    <p class="mb-2 pb-1">
+                    <p>Personal information:</p>
+                    <p>Full name - ${sessionScope.user.fullName}</p>
+                    <p>E-mail - ${sessionScope.user.email}</p>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     <jsp:include page="footer.jsp"/>
-</div>
-
 </body>
 </html>

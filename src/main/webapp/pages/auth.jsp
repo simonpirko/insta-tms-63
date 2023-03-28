@@ -6,8 +6,8 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div class="container">
-    <jsp:include page="header.jsp"/>
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">
             <form action="/auth" method="post">
@@ -19,7 +19,8 @@
                     <div class="d-grid gap-2">
                         <p style="color: red">${message}</p>
                         <button class="btn btn-success">Log in</button>
-                        <button class="btn btn-primary"><a href="/register" style="color: aliceblue">Registration</a></button>
+                        <button class="btn btn-primary"><a href="/register" style="color: aliceblue">Registration</a>
+                        </button>
                     </div>
                 </div>
             </form>

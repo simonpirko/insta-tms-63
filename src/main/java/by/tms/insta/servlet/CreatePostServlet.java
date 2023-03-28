@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet("/post/create")
+@WebServlet("/createPost")
 public class CreatePostServlet extends HttpServlet {
 
     PostService postService = PostService.getInstance();

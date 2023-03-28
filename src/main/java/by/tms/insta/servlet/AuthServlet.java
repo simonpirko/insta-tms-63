@@ -33,12 +33,12 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter(USERNAME);
         String password = req.getParameter(PASSWORD);
 
-        Optional<User> byUsername = UserService.getInstance().findUserByUserName(username);
+        Optional<User> byUsername = UserService.getInstance().findByUserName(username);
         if (byUsername.isPresent()) {
             User user = byUsername.get();
             if (user.getPassword().equals(password)) {
                 req.getSession().setAttribute(USER, user);
-                resp.sendRedirect(PROFILE_PATH);
+                getServletContext().getRequestDispatcher(PROFILE_PATH).forward(req,resp);
                 return;
             } else {
                 req.setAttribute(MESSAGE, WRONG_PASSWORD_MESSAGE);

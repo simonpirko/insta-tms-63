@@ -23,7 +23,7 @@ public class CommentServlet extends HttpServlet {
     private static final String MESSAGE = "message";
     private static final String NO_COMMENTS_MESSAGE = "no comments";
     private static final String COMMENT_PATH = "/pages/comment.jsp";
-    private static final CommentService commentService = CommentService.getInstance();
+    private final CommentService commentService = CommentService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

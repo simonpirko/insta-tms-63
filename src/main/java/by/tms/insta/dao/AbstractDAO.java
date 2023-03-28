@@ -1,16 +1,16 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class AbstractStorage {
+public abstract class AbstractDAO {
     private static final String URL = "jdbc:postgresql://localhost:5432/instagram_bd";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
     private final Connection connection;
 
-    public AbstractStorage() {
+    public AbstractDAO() {
         this.connection = createConnection();
     }
 

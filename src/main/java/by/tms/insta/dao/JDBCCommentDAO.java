@@ -1,4 +1,4 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import by.tms.insta.entity.Comment;
 import by.tms.insta.service.PostService;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCCommentStorage extends AbstractStorage implements CommentStorage {
+public class JDBCCommentDAO extends AbstractDAO implements CommentDAO {
     private static final String INSERTING_COMMENT = "insert into comments values (default, ?, ?, ?, ?)";
     private static final String DELETION_COMMENT_BY_ID = "delete from comments where id = ?";
     private static final String SELECTION_COMMENT_BY_ID = "select * from comments where id = ?";
@@ -21,15 +21,15 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
     private static final int USER_ID_COLUMN = 3;
     private static final int CREATE_AT_COLUMN = 4;
     private static final int POST_ID_COLUMN = 5;
-    private static JDBCCommentStorage commentStorage;
+    private static JDBCCommentDAO commentStorage;
 
-    private JDBCCommentStorage() {
+    private JDBCCommentDAO() {
 
     }
 
-    public static JDBCCommentStorage getInstance() {
+    public static JDBCCommentDAO getInstance() {
         if (commentStorage == null) {
-            commentStorage = new JDBCCommentStorage();
+            commentStorage = new JDBCCommentDAO();
         }
         return commentStorage;
     }
@@ -73,7 +73,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
             return Optional.of(Comment.builder()
                     .setId(id)
                     .setBody(body)
-                    .setAuthor(UserService.getInstance().findUserById(userId).get())
+                    .setAuthor(UserService.getInstance().findById(userId).get())
                     .setCreateAt(createAt).setPost(PostService.getInstance().findPostById(postId).get())
                     .build());
         } catch (SQLException ignored) {
@@ -96,7 +96,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
-                        .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setAuthor(UserService.getInstance().findById(userId).get())
                         .setPost(PostService.getInstance().findPostById(postId).get())
                         .setCreateAt(createAt)
                         .build());
@@ -122,7 +122,7 @@ public class JDBCCommentStorage extends AbstractStorage implements CommentStorag
                 comments.add(Comment.builder()
                         .setId(id)
                         .setBody(body)
-                        .setAuthor(UserService.getInstance().findUserById(userId).get())
+                        .setAuthor(UserService.getInstance().findById(userId).get())
                         .setPost(PostService.getInstance().findPostById(postId).get())
                         .setCreateAt(createAt)
                         .build());

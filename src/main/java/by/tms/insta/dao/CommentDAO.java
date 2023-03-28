@@ -1,9 +1,9 @@
-package by.tms.insta.storage;
+package by.tms.insta.dao;
 
 import by.tms.insta.entity.Comment;
 
 import java.util.List;
 
-public interface CommentStorage extends Storage<Comment> {
+public interface CommentDAO extends DAO<Comment> {
     List<Comment> findAllCommentsByPostId(long postId);
 }

@@ -43,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter(EMAIL);
         String password = req.getParameter(PASSWORD);
         String avatar = req.getParameter(AVATAR);
-        Optional<User> byUsername = userService.findUserByUserName(username);
+        Optional<User> byUsername = userService.findByUserName(username);
         if (byUsername.isEmpty()) {
             userService.createAccount(User.builder()
                     .setUsername(username)

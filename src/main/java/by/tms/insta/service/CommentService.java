@@ -2,14 +2,14 @@ package by.tms.insta.service;
 
 import by.tms.insta.entity.Comment;
 import by.tms.insta.entity.Post;
-import by.tms.insta.storage.JDBCCommentStorage;
+import by.tms.insta.dao.JDBCCommentDAO;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CommentService {
     private static CommentService commentService;
-    private static final JDBCCommentStorage storage = JDBCCommentStorage.getInstance();
+    private final JDBCCommentDAO storage = JDBCCommentDAO.getInstance();
 
     private CommentService() {
 

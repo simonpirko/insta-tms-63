@@ -28,7 +28,7 @@ public class UserValidator {
 
     }
 
-    private static boolean isPasswordValid(String password) {
+    public static boolean isPasswordValid(String password) {
         if (!password.matches(PASSWORD)) {
             errorMessages.add("Incorrect password");
             return false;

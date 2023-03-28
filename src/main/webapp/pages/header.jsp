@@ -34,7 +34,7 @@
 <c:if test="${sessionScope.user != null}">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/pages/profile.jsp">Instagram</a>
+        <a class="navbar-brand" href="/pages/account.jsp">Instagram</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -60,9 +60,9 @@
                     <a class="nav-link" style="color: darkred" href="/logout">Logout</a>
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Username" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit"><a href="#">Find</a></button>
+            <form action="/profile" method="post" class="d-flex">
+                <input class="form-control me-2" name="username" placeholder="Username">
+                <button class="btn btn-outline-success" type="submit">find</button>
             </form>
         </div>
     </div>

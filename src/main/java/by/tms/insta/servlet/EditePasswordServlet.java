@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @WebServlet("/editPassword")
 public class EditePasswordServlet extends HttpServlet {
@@ -41,7 +39,7 @@ public class EditePasswordServlet extends HttpServlet {
         if (currentUser.getPassword().equals(oldPassword)) {
             if (UserValidator.isPasswordValid(newPassword)) {
                 if (newPassword.equals(repeatingNewPassword)) {
-                    User user = userService.changePasswordById(newPassword, currentUser.getId()).get();
+                    User user = userService.updatePasswordById(newPassword, currentUser.getId()).get();
                     req.getSession().setAttribute(USER, user);
                     req.setAttribute(MESSAGE, SAVE_NEW_PASSWORD_MESSAGE);
                 } else {

@@ -42,11 +42,11 @@ public class UserService {
         return userDAO.findAll();
     }
 
-    public Optional<User> changePasswordById(String password, long id) {
-        return userDAO.changePasswordById(password, id);
+    public Optional<User> updatePasswordById(String password, long id) {
+        return userDAO.updatePasswordById(password, id);
     }
 
-    public Optional<User> changeEmailFullNameAvatarById(User user){
-        return userDAO.changeEmailFullNameAvatarById(user);
+    public Optional<User> updateById(User user){
+        return userDAO.updateById(user);
     }
 }

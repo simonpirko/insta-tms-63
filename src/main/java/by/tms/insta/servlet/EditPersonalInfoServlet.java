@@ -38,7 +38,7 @@ public class EditPersonalInfoServlet extends HttpServlet {
         String email = req.getParameter(EMAIL);
         String fullName = req.getParameter(FULL_NAME);
         String avatar = req.getParameter(AVATAR);
-        User updatedUser = userService.changeEmailFullNameAvatarById(User.builder()
+        User updatedUser = userService.updateById(User.builder()
                         .setId(currentUser.getId())
                         .setEmail(email)
                         .setFullName(fullName)

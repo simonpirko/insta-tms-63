@@ -10,7 +10,7 @@ import java.util.Optional;
 public class UserService {
 
     private static UserService userService;
-    private final UserDAO userStorage = JDBCUserDAO.getInstance();
+    private final UserDAO userDAO = JDBCUserDAO.getInstance();
 
     private UserService() {
     }
@@ -23,30 +23,30 @@ public class UserService {
     }
 
     public void createAccount(User user) {
-        userStorage.save(user);
+        userDAO.save(user);
     }
 
     public void removeAccount(User user) {
-        userStorage.remove(user.getId());
+        userDAO.remove(user.getId());
     }
 
     public Optional<User> findByUserName(String username) {
-        return userStorage.findByUsername(username);
+        return userDAO.findByUsername(username);
     }
 
     public Optional<User> findById(long id) {
-        return userStorage.findById(id);
+        return userDAO.findById(id);
     }
 
     public List<User> findAll() {
-        return userStorage.findAll();
+        return userDAO.findAll();
     }
 
     public Optional<User> changePasswordById(User user) {
-        return userStorage.changePasswordById(user);
+        return userDAO.changePasswordById(user);
     }
 
     public Optional<User> changeEmailFullNameAvatarById(User user){
-        return userStorage.changeEmailFullNameAvatarById(user);
+        return userDAO.changeEmailFullNameAvatarById(user);
     }
 }

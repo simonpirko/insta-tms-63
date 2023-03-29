@@ -20,16 +20,16 @@ public class JDBCPostDAO extends AbstractDAO implements PostDAO {
     private static final int URL_COLUMN = 3;
     private static final int USER_ID_COLUMN = 4;
     private static final int CREATE_AT_COLUMN = 5;
-    private static JDBCPostDAO postStorage;
+    private static JDBCPostDAO postDAO;
 
     public JDBCPostDAO() {
     }
 
     public static JDBCPostDAO getInstance() {
-        if (postStorage == null) {
-            postStorage = new JDBCPostDAO();
+        if (postDAO == null) {
+            postDAO = new JDBCPostDAO();
         }
-        return postStorage;
+        return postDAO;
     }
 
     @Override

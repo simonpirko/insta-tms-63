@@ -41,11 +41,7 @@ public class EditePasswordServlet extends HttpServlet {
         if (currentUser.getPassword().equals(oldPassword)) {
             if (UserValidator.isPasswordValid(newPassword)) {
                 if (newPassword.equals(repeatingNewPassword)) {
-                    User user = userService.changePasswordById(User.builder()
-                            .setId(currentUser.getId())
-                            .setPassword(newPassword)
-                            .setUpdateAt(LocalDateTime.now())
-                            .build()).get();
+                    User user = userService.changePasswordById(newPassword, currentUser.getId()).get();
                     req.getSession().setAttribute(USER, user);
                     req.setAttribute(MESSAGE, SAVE_NEW_PASSWORD_MESSAGE);
                 } else {

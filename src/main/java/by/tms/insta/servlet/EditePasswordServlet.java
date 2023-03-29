@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/editPassword")
+@WebServlet("/edit-password")
 public class EditePasswordServlet extends HttpServlet {
     private static final String OLD_PASSWORD = "oldPassword";
     private static final String NEW_PASSWORD = "newPassword";

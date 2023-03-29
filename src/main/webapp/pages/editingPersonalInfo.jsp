@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">
-            <form action="/editePersonalInfo" method="post">
+            <form action="/edite-personal-info" method="post">
                 <p>Change personal info:</p>
                 <div class="col-sm-4 my-auto">
                     <p style="color: steelblue">E-mail Address</p>

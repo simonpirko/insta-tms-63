@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-@WebServlet("/editePersonalInfo")
+@WebServlet("/edite-personal-info")
 public class EditPersonalInfoServlet extends HttpServlet {
     private User currentUser = null;
     private final UserService userService = UserService.getInstance();

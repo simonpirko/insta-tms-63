@@ -45,16 +45,16 @@
                     <a class="nav-link" href="#">My posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createPost">Create post</a>
+                    <a class="nav-link" href="/create-post">Create post</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/editPassword">Edit password</a>
+                    <a class="nav-link" href="/edit-password">Edit password</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/editePersonalInfo">Edit personal info</a>
+                    <a class="nav-link" href="/edite-personal-info">Edit personal info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/deleteAccount">Delete account</a>
+                    <a class="nav-link" href="/delete-account">Delete account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" style="color: darkred" href="/logout">Logout</a>

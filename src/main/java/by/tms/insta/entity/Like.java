@@ -5,38 +5,53 @@ import java.util.Objects;
 
 public class Like extends AbstractEntity {
     private User author;
-    private Post post;
+    private long post;
+
+    private Like() {
+    }
+    public static LikeBuilder builder() {
+        return new Like().new LikeBuilder();
+    }
+
+    public class LikeBuilder {
+        public LikeBuilder() {
+        }
+        public LikeBuilder setId(long id) {
+            Like.this.id = id;
+            return this;
+        }
+        public LikeBuilder setAuthor(User author) {
+            Like.this.author = author;
+            return this;
+        }
+        public LikeBuilder setPost(long post) {
+            Like.this.post = post;
+            return this;
+        }
+        public LikeBuilder setCreateAt(LocalDateTime createAt) {
+            Like.this.createAt = createAt;
+            return this;
+        }
+        public  Like build() {
+            return Like.this;
+        }
+    }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public Post getPost() {
+    public long getPost() {
         return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 
     public LocalDateTime getCreateAt() {
         return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
     }
 
     @Override

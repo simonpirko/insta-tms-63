@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PostService {
-    private final PostDAO postStorage = JDBCPostDAO.getInstance();
+    private final PostDAO postDAO = JDBCPostDAO.getInstance();
     private final CommentService commentService = CommentService.getInstance();
     private static PostService instance;
 
@@ -25,23 +25,23 @@ public class PostService {
     }
 
     public Optional<Post> findPostById(long id) {
-        return postStorage.findById(id);
+        return postDAO.findById(id);
     }
 
     public List<Post> findAllPosts() {
-        return postStorage.findAll();
+        return postDAO.findAll();
     }
 
     public void removePost(long id) {
-        postStorage.remove(id);
+        postDAO.remove(id);
     }
 
     public List<Post> findPosts(long id) {
-        return postStorage.findPostsByUserId(id);
+        return postDAO.findPostsByUserId(id);
     }
 
     public void createPost(Post post) {
-        postStorage.save(post);
+        postDAO.save(post);
     }
 
     public List<Comment> getPostWithComments(Post post){

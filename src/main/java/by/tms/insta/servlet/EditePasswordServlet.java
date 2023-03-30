@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
-@WebServlet("/editPassword")
+@WebServlet("/edit-password")
 public class EditePasswordServlet extends HttpServlet {
     private static final String OLD_PASSWORD = "oldPassword";
     private static final String NEW_PASSWORD = "newPassword";
@@ -29,7 +27,7 @@ public class EditePasswordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(EDITING_PASSWORD_PAGE_PATH);
+        getServletContext().getRequestDispatcher(EDITING_PASSWORD_PAGE_PATH).forward(req, resp);
     }
 
     @Override
@@ -41,11 +39,7 @@ public class EditePasswordServlet extends HttpServlet {
         if (currentUser.getPassword().equals(oldPassword)) {
             if (UserValidator.isPasswordValid(newPassword)) {
                 if (newPassword.equals(repeatingNewPassword)) {
-                    User user = userService.changePasswordById(User.builder()
-                            .setId(currentUser.getId())
-                            .setPassword(newPassword)
-                            .setUpdateAt(LocalDateTime.now())
-                            .build()).get();
+                    User user = userService.updatePasswordById(newPassword, currentUser.getId()).get();
                     req.getSession().setAttribute(USER, user);
                     req.setAttribute(MESSAGE, SAVE_NEW_PASSWORD_MESSAGE);
                 } else {

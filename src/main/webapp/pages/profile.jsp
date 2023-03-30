@@ -16,9 +16,6 @@
                     <div class="container d-flex justify-content-center">
                         <div style="max-width: 500px">
                             <div class="card flex-grow-1 " style="border-radius: 15px; border: none">
-                                <h4 style="color: steelblue">Personal information:</h4>
-                                <p>${user.fullName}<br>email - ${user.email}</p>
-
                                 <c:if test="${user != null}">
                                     <c:if test="${posts != null}">
                                         <c:forEach items="${posts}" var="post">

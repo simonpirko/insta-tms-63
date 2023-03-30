@@ -21,17 +21,17 @@ public class JDBCCommentDAO extends AbstractDAO implements CommentDAO {
     private static final int USER_ID_COLUMN = 3;
     private static final int CREATE_AT_COLUMN = 4;
     private static final int POST_ID_COLUMN = 5;
-    private static JDBCCommentDAO commentStorage;
+    private static JDBCCommentDAO commentDAO;
 
     private JDBCCommentDAO() {
 
     }
 
     public static JDBCCommentDAO getInstance() {
-        if (commentStorage == null) {
-            commentStorage = new JDBCCommentDAO();
+        if (commentDAO == null) {
+            commentDAO = new JDBCCommentDAO();
         }
-        return commentStorage;
+        return commentDAO;
     }
 
     @Override

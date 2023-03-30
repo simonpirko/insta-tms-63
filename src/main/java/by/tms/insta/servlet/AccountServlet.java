@@ -11,6 +11,6 @@ import java.io.IOException;
 public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/account.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/account.jsp").forward(req, resp);
     }
 }

@@ -60,7 +60,7 @@
                     <a class="nav-link" style="color: darkred" href="/logout">Logout</a>
                 </li>
             </ul>
-            <form action="/profile" method="post" class="d-flex">
+            <form action="/searching-profile" method="post" class="d-flex">
                 <input class="form-control me-2" name="username" placeholder="Username">
                 <button class="btn btn-outline-success" type="submit">find</button>
             </form>

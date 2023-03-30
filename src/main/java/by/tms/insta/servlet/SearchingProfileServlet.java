@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/profile")
-public class ProfileServlet extends HttpServlet {
+@WebServlet("/searching-profile")
+public class SearchingProfileServlet extends HttpServlet {
     private static final String PROFILE_PATH = "/pages/profile.jsp";
     private final UserService userService = UserService.getInstance();
     private final PostService postService = PostService.getInstance();

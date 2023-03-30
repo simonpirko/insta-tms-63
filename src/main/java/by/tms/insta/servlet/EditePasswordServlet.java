@@ -27,7 +27,7 @@ public class EditePasswordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(EDITING_PASSWORD_PAGE_PATH);
+        getServletContext().getRequestDispatcher(EDITING_PASSWORD_PAGE_PATH).forward(req, resp);
     }
 
     @Override

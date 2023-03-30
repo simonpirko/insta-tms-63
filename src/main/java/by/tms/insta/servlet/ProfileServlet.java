@@ -22,12 +22,8 @@ public class ProfileServlet extends HttpServlet {
     private static final String USERNAME = "username";
     private static final String USER = "user";
     private static final String MESSAGE = "message";
+    private static final String POSTS = "posts";
     private static final String USER_NOT_FOND_MESSAGE = "user not found";
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(PROFILE_PATH);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +32,7 @@ public class ProfileServlet extends HttpServlet {
         if (byUserName.isPresent()) {
             List<Post> posts = postService.findPosts(byUserName.get().getId());
             req.setAttribute(USER, byUserName.get());
-            req.setAttribute("posts", posts);
+            req.setAttribute(POSTS, posts);
         } else {
             req.setAttribute(MESSAGE, USER_NOT_FOND_MESSAGE);
         }

@@ -49,4 +49,8 @@ public class UserService {
     public Optional<User> updateById(User user){
         return userDAO.updateById(user);
     }
+
+    public Optional<User> getUserWithPosts(String username){
+        return userDAO.findUserWithPosts(username);
+    }
 }

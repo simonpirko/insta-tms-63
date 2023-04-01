@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">
-            <br action="/register" method="post">
+            <form action="/register" method="post">
                 <p>Registration:</p>
                 <div class="col-sm-4 my-auto">
                     <p><input type="email" class="form-control" name="email" required placeholder="Email"></p>

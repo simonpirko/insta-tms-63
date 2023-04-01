@@ -23,6 +23,11 @@ public class CreatePostServlet extends HttpServlet {
     public final static String DESCRIPTION = "post_description";
     public final static String URL = "post_url";
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/pages/createPost.jsp").forward(req, resp);
+
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,7 +50,7 @@ public class CreatePostServlet extends HttpServlet {
                 .setCreateAt(LocalDateTime.now())
                 .build();
         postService.createPost(createPost);
-        getServletContext().getRequestDispatcher("/post.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/createPost.jsp").forward(req, resp);
 
     }
 }

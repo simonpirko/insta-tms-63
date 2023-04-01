@@ -19,9 +19,10 @@ public class CreatePostServlet extends HttpServlet {
 
     PostService postService = PostService.getInstance();
     UserService userService = UserService.getInstance();
-    public final static String USER_ID = "user_id";
-    public final static String DESCRIPTION = "post_description";
-    public final static String URL = "post_url";
+//    public final static String USER_ID = "user_id";
+    public final static String DESCRIPTION = "description";
+    public final static String URL = "url";
+    private static final String CURRENT_USER = "user";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +33,9 @@ public class CreatePostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //      long userId= Long.parseLong(req.getParameter(USER_ID));
-        long userId = Long.parseLong((String) req.getSession().getAttribute(USER_ID));
+        User currentUser = (User) req.getSession().getAttribute(CURRENT_USER);
+        long userId= currentUser.getId();
+//        long userId = Long.parseLong((String) req.getSession().getAttribute(USER_ID));
         String description = req.getParameter(DESCRIPTION);
         String url = req.getParameter(URL);
         Optional<User> userById = userService.findById(userId);

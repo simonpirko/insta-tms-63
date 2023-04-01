@@ -14,7 +14,6 @@
                     <p><input type="text" class="form-control" name="url" placeholder="Url"></p>
                     <p><input type="text" class="form-control" name="description" placeholder="Description"></p>
                     <div class="d-grid gap-2">
-                        <p style="color: red">${message}</p>
                         <button class="btn btn-success">Create post</button>
                     </div>
                 </div>

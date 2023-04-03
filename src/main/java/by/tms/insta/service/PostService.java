@@ -1,6 +1,5 @@
 package by.tms.insta.service;
 
-import by.tms.insta.entity.Comment;
 import by.tms.insta.entity.Post;
 import by.tms.insta.dao.JDBCPostDAO;
 import by.tms.insta.dao.PostDAO;
@@ -10,7 +9,6 @@ import java.util.Optional;
 
 public class PostService {
     private final PostDAO postDAO = JDBCPostDAO.getInstance();
-    private final CommentService commentService = CommentService.getInstance();
     private static PostService instance;
 
     private PostService() {
@@ -44,7 +42,7 @@ public class PostService {
         postDAO.save(post);
     }
 
-    public List<Comment> getPostWithComments(Post post){
-        return commentService.findAllCommentsByPostId(post);
+    public Optional<Post> getPostWithComments(long postId){
+        return postDAO.findPostWithComments(postId);
     }
 }

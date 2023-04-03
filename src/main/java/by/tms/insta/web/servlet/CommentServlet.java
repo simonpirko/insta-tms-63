@@ -1,4 +1,4 @@
-package by.tms.insta.servlet;
+package by.tms.insta.web.servlet;
 
 import by.tms.insta.entity.Comment;
 import by.tms.insta.entity.Post;

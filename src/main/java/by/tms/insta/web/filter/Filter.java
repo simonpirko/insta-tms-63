@@ -1,4 +1,4 @@
-package filter;
+package by.tms.insta.web.filter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

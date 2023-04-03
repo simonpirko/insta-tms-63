@@ -19,7 +19,6 @@ public class CreatePostServlet extends HttpServlet {
 
     PostService postService = PostService.getInstance();
     UserService userService = UserService.getInstance();
-//    public final static String USER_ID = "user_id";
     public final static String DESCRIPTION = "description";
     public final static String URL = "url";
     private static final String CURRENT_USER = "user";
@@ -27,22 +26,16 @@ public class CreatePostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/pages/createPost.jsp").forward(req, resp);
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//      long userId= Long.parseLong(req.getParameter(USER_ID));
         User currentUser = (User) req.getSession().getAttribute(CURRENT_USER);
-        long userId= currentUser.getId();
-//        long userId = Long.parseLong((String) req.getSession().getAttribute(USER_ID));
+        long userId = currentUser.getId();
         String description = req.getParameter(DESCRIPTION);
         String url = req.getParameter(URL);
         Optional<User> userById = userService.findById(userId);
         if (userById.isEmpty()) {
-
-            //        resp.sendRedirect("/post.jsp"); todo add error pages
-
             throw new RuntimeException("User id is undefined");
         }
 

@@ -24,26 +24,27 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
     private static final String SELECTION_BY_ID = "select * from users where id = ?";
     private static final String SELECTION_ALL = "select * from users";
     private static final String UPDATED_PASSWORD = "update users\n" +
-            "set password  = ?,\n" +
-            "    update_at = ?\n" +
-            "where id = ?\n" +
+            "set password  = ?, " +
+            "    update_at = ? " +
+            "where id = ? " +
             "returning *";
     private static final String UPDATED_EMAIL_FULL_NAME_AVATAR = "update users\n" +
-            "set email     = ?,\n" +
-            "    fullname  = ?,\n" +
-            "    avatar    = ?,\n" +
-            "    update_at = ?\n" +
-            "where id = ?\n" +
+            "set email     = ?, " +
+            "    fullname  = ?, " +
+            "    avatar    = ?, " +
+            "    update_at = ? " +
+            "where id = ? " +
             "returning *";
-    private static final String SELECTION_USER_WITH_POSTS = "select posts.id,\n" +
-            "       posts.url,\n" +
-            "       posts.description,\n" +
-            "       posts.create_at,\n" +
-            "       users.id,\n" +
-            "       users.avatar\n" +
-            "from posts\n" +
-            "         inner join users on posts.user_id = users.id\n" +
-            "where username = ?";
+private static final String SELECTION_USER_WITH_POSTS = "select posts.id," +
+        "posts.url," +
+        "posts.description," +
+        "posts.create_at, " +
+        "users.id," +
+        "users.username," +
+        "users.avatar " +
+        "from posts " +
+        "inner join users on posts.user_id = users.id " +
+        "where username = ?";
     private static JDBCUserDAO userDAO;
 
     public static JDBCUserDAO getInstance() {
@@ -160,26 +161,26 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
     @Override
     public Optional<User> findUserWithPosts(String username) {
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_WITH_POSTS);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_WITH_POSTS,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return  Optional.of(getUserWithPosts(resultSet, username));
+
+            return Optional.of(getUserWithPosts(resultSet));
         } catch (SQLException ignored) {
         }
         return Optional.empty();
     }
 
-    private User getUserWithPosts(ResultSet resultSet, String username) throws SQLException {
+    private User getUserWithPosts(ResultSet resultSet) throws SQLException {
         List<Post> posts = new ArrayList<>();
-        String avatar = null;
-        long userId = 0;
-        while (resultSet.next()) {
+        resultSet.afterLast();
+        while (resultSet.previous()) {
             long postId = resultSet.getLong(1);
             String url = resultSet.getString(2);
             String description = resultSet.getString(3);
             LocalDateTime postCreateAt = resultSet.getTimestamp(4).toLocalDateTime();
-            userId = resultSet.getLong(5);
-            avatar = resultSet.getString(6);
             posts.add(Post.builder()
                     .setId(postId)
                     .setUrl(url)
@@ -187,6 +188,10 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
                     .setCreateAt(postCreateAt)
                     .build());
         }
+        resultSet.absolute(1);
+        long userId = resultSet.getLong(5);
+        String username = resultSet.getString(6);
+        String avatar = resultSet.getString(7);
         return User.builder()
                 .setId(userId)
                 .setUsername(username)

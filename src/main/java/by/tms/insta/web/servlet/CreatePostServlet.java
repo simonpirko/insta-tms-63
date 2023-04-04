@@ -1,4 +1,4 @@
-package by.tms.insta.servlet;
+package by.tms.insta.web.servlet;
 
 import by.tms.insta.entity.Post;
 import by.tms.insta.entity.User;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet("/createPost")
+@WebServlet("/create-post")
 public class CreatePostServlet extends HttpServlet {
 
     PostService postService = PostService.getInstance();

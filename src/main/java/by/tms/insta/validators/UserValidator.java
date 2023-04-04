@@ -34,10 +34,9 @@ public class UserValidator {
             return false;
         }
         return true;
-
     }
 
-    private static boolean isEmailValid(String email) {
+    public static boolean isEmailValid(String email) {
         if (!email.matches(EMAIL)) {
             errorMessages.add("Incorrect email");
             return false;

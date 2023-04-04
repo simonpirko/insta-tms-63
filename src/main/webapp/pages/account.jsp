@@ -10,7 +10,7 @@
         <div class="card flex-grow-1 " style="border-radius: 15px; border: none">
             <div class="d-flex">
                 <div class="flex-shrink-0"><img src="${sessionScope.user.avatar}"
-                                                class="rounded-circle d-flex" style="width: 50px"
+                                                class="rounded-circle d-flex" style="width: 100px; height: 100px"
                                                 alt="Avatar"/></div>
                 <div class="flex-grow-1 ms-3">
                     <h5>@${sessionScope.user.username}</h5>

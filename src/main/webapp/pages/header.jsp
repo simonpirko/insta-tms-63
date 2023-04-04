@@ -4,6 +4,14 @@
 <head>
     <meta charset="utf-8">
     <title>Instagram</title>
+    <style>
+        .zoom {
+            transition: all 0.3s;
+        }
+        .zoom:hover{
+            transform: scale(1.05);
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -42,25 +50,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent2">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My posts</a>
+                    <a class="nav-link" href="/my-posts">My posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createPost">Create post</a>
+                    <a class="nav-link" href="/create-post">Create post</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/editPassword">Edit password</a>
+                    <a class="nav-link" href="/edit-password">Edit password</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/editePersonalInfo">Edit personal info</a>
+                    <a class="nav-link" href="/edite-personal-info">Edit personal info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/deleteAccount">Delete account</a>
+                    <a class="nav-link" href="/delete-account">Delete account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" style="color: darkred" href="/logout">Logout</a>
                 </li>
             </ul>
-            <form action="/profile" method="post" class="d-flex">
+            <form action="/searching-profile" method="post" class="d-flex">
                 <input class="form-control me-2" name="username" placeholder="Username">
                 <button class="btn btn-outline-success" type="submit">find</button>
             </form>

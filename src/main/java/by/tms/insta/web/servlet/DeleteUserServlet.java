@@ -1,4 +1,4 @@
-package by.tms.insta.servlet;
+package by.tms.insta.web.servlet;
 
 import by.tms.insta.service.UserService;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteAccount")
+@WebServlet("/delete-account")
 public class DeleteUserServlet extends HttpServlet {
     private UserService userService = UserService.getInstance();
     @Override

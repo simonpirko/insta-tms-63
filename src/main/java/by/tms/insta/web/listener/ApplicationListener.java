@@ -1,4 +1,4 @@
-package by.tms.insta.listener;
+package by.tms.insta.web.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

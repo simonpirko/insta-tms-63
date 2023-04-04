@@ -1,5 +1,6 @@
 package by.tms.insta.dao;
 
+import by.tms.insta.entity.Post;
 import by.tms.insta.entity.User;
 
 import java.sql.*;
@@ -22,16 +23,35 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
     private static final String SELECTION_BY_USERNAME = "select * from users where username = ?";
     private static final String SELECTION_BY_ID = "select * from users where id = ?";
     private static final String SELECTION_ALL = "select * from users";
-    private static final String UPDATED_PASSWORD = "update users set password = ?, update_at = ? where id = ? returning *";
-    private static final String UPDATED_EMAIL_FULL_NAME_AVATAR = "update users set email = ?, fullname = ?, avatar = ?, update_at = ? where id = ? returning *";
-
-    private static JDBCUserDAO userStorage;
+    private static final String UPDATED_PASSWORD = "update users\n" +
+            "set password  = ?, " +
+            "    update_at = ? " +
+            "where id = ? " +
+            "returning *";
+    private static final String UPDATED_EMAIL_FULL_NAME_AVATAR = "update users\n" +
+            "set email     = ?, " +
+            "    fullname  = ?, " +
+            "    avatar    = ?, " +
+            "    update_at = ? " +
+            "where id = ? " +
+            "returning *";
+private static final String SELECTION_USER_WITH_POSTS = "select posts.id," +
+        "posts.url," +
+        "posts.description," +
+        "posts.create_at, " +
+        "users.id," +
+        "users.username," +
+        "users.avatar " +
+        "from posts " +
+        "inner join users on posts.user_id = users.id " +
+        "where username = ?";
+    private static JDBCUserDAO userDAO;
 
     public static JDBCUserDAO getInstance() {
-        if (userStorage == null) {
-            userStorage = new JDBCUserDAO();
+        if (userDAO == null) {
+            userDAO = new JDBCUserDAO();
         }
-        return userStorage;
+        return userDAO;
     }
 
     private JDBCUserDAO() {
@@ -93,6 +113,7 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
         return new ArrayList<>();
     }
 
+    @Override
     public Optional<User> findByUsername(String username) {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_BY_USERNAME);
@@ -106,12 +127,12 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
     }
 
     @Override
-    public Optional<User> changePasswordById(User user) {
+    public Optional<User> updatePasswordById(String password, long id) {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATED_PASSWORD);
-            preparedStatement.setString(1, user.getPassword());
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(user.getUpdateAt()));
-            preparedStatement.setLong(3, user.getId());
+            preparedStatement.setString(1, password);
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setLong(3, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return Optional.of(getUser(resultSet));
@@ -121,7 +142,7 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
     }
 
     @Override
-    public Optional<User> changeEmailFullNameAvatarById(User user) {
+    public Optional<User> updateById(User user) {
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATED_EMAIL_FULL_NAME_AVATAR);
             preparedStatement.setString(1, user.getEmail());
@@ -135,6 +156,48 @@ public class JDBCUserDAO extends AbstractDAO implements UserDAO {
         } catch (SQLException ignored) {
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findUserWithPosts(String username) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SELECTION_USER_WITH_POSTS,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return Optional.of(getUserWithPosts(resultSet));
+        } catch (SQLException ignored) {
+        }
+        return Optional.empty();
+    }
+
+    private User getUserWithPosts(ResultSet resultSet) throws SQLException {
+        List<Post> posts = new ArrayList<>();
+        resultSet.afterLast();
+        while (resultSet.previous()) {
+            long postId = resultSet.getLong(1);
+            String url = resultSet.getString(2);
+            String description = resultSet.getString(3);
+            LocalDateTime postCreateAt = resultSet.getTimestamp(4).toLocalDateTime();
+            posts.add(Post.builder()
+                    .setId(postId)
+                    .setUrl(url)
+                    .setDescription(description)
+                    .setCreateAt(postCreateAt)
+                    .build());
+        }
+        resultSet.absolute(1);
+        long userId = resultSet.getLong(5);
+        String username = resultSet.getString(6);
+        String avatar = resultSet.getString(7);
+        return User.builder()
+                .setId(userId)
+                .setUsername(username)
+                .setAvatar(avatar)
+                .setPosts(posts)
+                .build();
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {

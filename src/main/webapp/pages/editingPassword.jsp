@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row align-items-center h-100">
         <div class="col-md-8 offset-md-5">
-            <form action="/editPassword" method="post">
+            <form action="/edit-password" method="post">
                 <p>Change password:</p>
                 <div class="col-sm-4 my-auto">
                     <p><input type="password" class="form-control" name="oldPassword" placeholder="Current password">

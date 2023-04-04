@@ -18,15 +18,13 @@
                     <p><input type="text" class="form-control" name="username" required placeholder="Username"></p>
                     <p><input type="password" class="form-control" name="password" required placeholder="Password"></p>
                     <p><input type="url" class="form-control" name="avatar" required placeholder="Avatar"></p>
-                    <br>
                     <div class="d-grid gap-2">
+                        <p style="color: red">${message}</p>
                         <button class="btn btn-success">Sign up</button>
                         <button class="btn btn-primary"><a href="/auth" style="color: aliceblue">Authorization</a>
                         </button>
                     </div>
-                    <p style="color: red">${message}</p>
                 </div>
-            </br>
             </form>
         </div>
     </div>

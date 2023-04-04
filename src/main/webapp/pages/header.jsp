@@ -4,6 +4,14 @@
 <head>
     <meta charset="utf-8">
     <title>Instagram</title>
+    <style>
+        .zoom {
+            transition: all 0.3s;
+        }
+        .zoom:hover{
+            transform: scale(1.05);
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -42,7 +50,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent2">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My posts</a>
+                    <a class="nav-link" href="/my-posts">My posts</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/create-post">Create post</a>

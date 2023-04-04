@@ -8,9 +8,9 @@
                                                 class="rounded-circle d-flex" style="width: 50px"
                                                 alt="Avatar"/></div>
                 <div class="flex-grow-1 ms-3">
-                    <h5>Username</h5>
+                    <h5>${user.username}</h5>
                     <p class="mb-2 pb-1">
-                        Geolocation
+                        ${user.fullName}
                     </p>
                 </div>
 

@@ -38,7 +38,6 @@ public class CreatePostServlet extends HttpServlet {
         if (userById.isEmpty()) {
             throw new RuntimeException("User id is undefined");
         }
-
         Post createPost = Post.builder()
                 .setCreator(userById.get())
                 .setDescription(description)
@@ -47,6 +46,5 @@ public class CreatePostServlet extends HttpServlet {
                 .build();
         postService.createPost(createPost);
         getServletContext().getRequestDispatcher("/pages/createPost.jsp").forward(req, resp);
-
     }
 }

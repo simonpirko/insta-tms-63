@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Simon Pirko on 9.03.23
  */
 
-@WebServlet("/test")
+@WebServlet("/")
 public class IndexServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

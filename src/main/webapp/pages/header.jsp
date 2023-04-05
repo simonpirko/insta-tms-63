@@ -8,7 +8,8 @@
         .zoom {
             transition: all 0.3s;
         }
-        .zoom:hover{
+
+        .zoom:hover {
             transform: scale(1.05);
         }
     </style>
@@ -75,7 +76,6 @@
         </div>
     </div>
 </nav>
+<p class="text-center" style="color: black">${message}</p>
 </c:if>
-
-
 

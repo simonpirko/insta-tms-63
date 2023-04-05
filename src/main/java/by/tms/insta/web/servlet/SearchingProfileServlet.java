@@ -19,7 +19,7 @@ public class SearchingProfileServlet extends HttpServlet {
     private static final String USER = "user";
     private static final String MESSAGE = "message";
     private static final String POSTS = "posts";
-    private static final String USER_NOT_FOND_MESSAGE = "user not found";
+    private static final String USER_NOT_FOND_MESSAGE = "No results found for your query.";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

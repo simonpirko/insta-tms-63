@@ -19,7 +19,7 @@ public class SearchingProfileServlet extends HttpServlet {
     private static final String USER = "user";
     private static final String MESSAGE = "message";
     private static final String POSTS = "posts";
-    private static final String USER_NOT_FOND_MESSAGE = "user not found";
+    private static final String USER_NOT_FOND_MESSAGE = "No results found for ";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class SearchingProfileServlet extends HttpServlet {
             req.setAttribute(USER, userWithPosts.get());
             req.setAttribute(POSTS, userWithPosts.get().getPosts());
         } else {
-            req.setAttribute(MESSAGE, USER_NOT_FOND_MESSAGE);
+            req.setAttribute(MESSAGE, USER_NOT_FOND_MESSAGE+username);
         }
         getServletContext().getRequestDispatcher(PROFILE_PATH).forward(req, resp);
     }

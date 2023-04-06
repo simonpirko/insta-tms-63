@@ -133,7 +133,7 @@ public class JDBCLikesDAO extends AbstractDAO implements LikesDAO{
             List<Like> likes = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(ID_COLUMN);
-                long userId = resultSet.getLong(USER_ID_COLUMN)
+                long userId = resultSet.getLong(USER_ID_COLUMN);
                 LocalDateTime createAt = resultSet.getTimestamp(CREATE_AT_COLUMN).toLocalDateTime();
                 return List.of(Like.builder()
                         .setId(id)

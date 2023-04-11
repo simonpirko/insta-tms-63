@@ -13,7 +13,7 @@ public class Filter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         if (req.getSession().getAttribute("currentUser")==null) {
-            res.setStatus(403);
+            res.setStatus(401);
         }else {
             chain.doFilter(req,res);
         }
